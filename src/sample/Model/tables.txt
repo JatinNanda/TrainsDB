@@ -1,0 +1,83 @@
+CREATE TABLE Customer (
+Username varChar(30) NOT NULL,
+Password varChar(30) NOT NULL,
+Email varChar(30) NOT NULL,
+IsStudent bit NOT NULL DEFAULT 0,
+PRIMARY KEY (Username),
+UNIQUE (Email)
+)
+CREATE TABLE TrainRoute (
+TrainNumber varchar(40) NOT NULL,
+1stClassPrice int NOT NULL,
+2ndClassPrice int NOT NULL,
+PRIMARY KEY (TrainNumber)
+);
+CREATE TABLE Review (
+ReviewId int NOT NULL AUTO_INCREMENT,
+Comment varchar(255),
+Rating int NOT NULL,
+Username varchar(30) NOT NULL,
+TrainNumber varchar(40) NOT NULL,
+PRIMARY KEY (ReviewId),
+FOREIGN KEY (Username) REFERENCES Customer (Username)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (TrainNumber) REFERENCES TrainRoute (TrainNumber)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE Station (
+Name varchar(40) NOT NULL,
+Location varchar(40) NOT NULL,
+PRIMARY KEY (Name)
+);
+CREATE TABLE PaymentInfo (
+CardNumber int NOT NULL,
+CVV int NOT NULL,
+ExpDate varChar(5) NOT NULL,
+NameOnCard varChar(40) NOT NULL,
+Username varchar(30) NOT NULL,
+PRIMARY KEY (CardNumber),
+FOREIGN KEY (Username) REFERENCES Customer (Username)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE Reservation (
+ReservationId int NOT NULL AUTO_INCREMENT,
+IsCancelled bit NOT NULL,
+Username varchar(30) NOT NULL,
+CardNumber int NOT NULL,
+PRIMARY KEY (ReservationId),
+FOREIGN KEY (Username) REFERENCES Customer (Username)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (CardNumber) REFERENCES PaymentInfo (CardNumber)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE Manager (
+Username varchar(30) NOT NULL,
+Password varchar(30) NOT NULL,
+PRIMARY KEY (Username)
+);
+CREATE TABLE Reserves (
+ReservationId int NOT NULL AUTO_INCREMENT,
+TrainNumber varchar(40) NOT NULL,
+Class bit NOT NULL,
+DepartureDate Date NOT NULL,
+PassengerName varchar(40) NOT NULL,
+NumberOfBags int NOT NULL DEFAULT 0,
+DepartsFrom varChar(40) NOT NULL,
+ArrivesAt varChar(40) NOT NULL,
+PRIMARY KEY (ReservationId, TrainNumber),
+FOREIGN KEY (ReservationId) REFERENCES Reservation (ReservationId)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (TrainNumber) REFERENCES TrainRoute (TrainNumber)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE Stop (
+TrainNumber  varChar(40) NOT NULL,
+StationName varChar(40) NOT NULL,
+ArrivalTime Time NOT NULL,
+DepartureTime Time NOT NULL,
+PRIMARY KEY (TrainNumber, StationName),
+FOREIGN KEY (TrainNumber) REFERENCES TrainRoute (TrainNumber)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (StationName) REFERENCES Station (StationName)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
