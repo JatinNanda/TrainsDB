@@ -1,7 +1,7 @@
 package sample.Model;
 
 /**
- * Created by jatin1 on 3/23/16.
+ * Created by jatin1 on 3/23/16. test
  */
 public class Customer {
     private String username;
