@@ -1,0 +1,20 @@
+package sample.Model;
+
+/**
+ * Created by jatin1 on 3/23/16.
+ */
+public class Customer {
+    private String username;
+    private String password;
+    private String email;
+
+    public Customer(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public boolean isStudent() {
+        return email.substring(email.length() - 3) == "edu";
+    }
+}
