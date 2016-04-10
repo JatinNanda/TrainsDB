@@ -5,7 +5,7 @@ Email varChar(30) NOT NULL,
 IsStudent bit NOT NULL DEFAULT 0,
 PRIMARY KEY (Username),
 UNIQUE (Email)
-)
+);
 CREATE TABLE TrainRoute (
 TrainNumber varchar(40) NOT NULL,
 1stClassPrice int NOT NULL,
