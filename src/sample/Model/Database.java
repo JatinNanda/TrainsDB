@@ -55,9 +55,10 @@ public class Database {
     }
   public static void main(String[] args) {
     try {
-      //setUp();
+      getConnection();
+        System.out.println("Yay you connected!");
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      System.out.println(e);
     }
   }
 }
