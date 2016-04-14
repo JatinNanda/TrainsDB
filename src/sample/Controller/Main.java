@@ -5,14 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Model.Database;
 
+/**
+ * Created by jatin1 on 4/14/16.
+ */
 public class Main extends Application {
-
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/login" +
+                ".fxml"));
+        primaryStage.setTitle("GT Trains Application");
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
@@ -20,3 +24,4 @@ public class Main extends Application {
         launch(args);
     }
 }
+

@@ -24,7 +24,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(url, username, password);
             return conn;
         } catch (Exception e) {
-          System.out.println("Failed to connect");
+            System.out.println("Failed to connect");
             System.out.println(e);
         }
         return null;
@@ -53,12 +53,16 @@ public class Database {
             System.out.println(e);
         }
     }
-  public static void main(String[] args) {
-    try {
-      getConnection();
-        System.out.println("Yay you connected!");
-    } catch (Exception e) {
-      System.out.println(e);
+    public static boolean loginAttempt(String username, String password) {
+        return (username.equals("wildcats") && password.equals("12345"));
     }
-  }
+
+    public static void main(String[] args) {
+        try {
+            getConnection();
+            System.out.println("Yay you connected!");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 }
