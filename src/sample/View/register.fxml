@@ -8,11 +8,11 @@
    <children>
       <TextField fx:id="username" alignment="CENTER" layoutX="217.0" layoutY="122.0" promptText="Username" />
       <TextField fx:id="email" alignment="CENTER" layoutX="217.0" layoutY="165.0" promptText="E-mail Address" />
-      <TextField fx:id="pass" alignment="CENTER" layoutX="217.0" layoutY="207.0" promptText="Password" />
-      <TextField fx:id="confirmPass" alignment="CENTER" layoutX="217.0" layoutY="250.0" promptText="Confirm Password" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="49.0" prefHeight="87.0" prefWidth="247.0" text="New User Registration" />
       <Button fx:id="register" alignment="CENTER" contentDisplay="CENTER" layoutX="266.0" layoutY="296.0" mnemonicParsing="false" text="Register" />
-      <Label fx:id="error" layoutX="229.0" layoutY="350.0"
-             text="Passwords don't match" />
+      <Label fx:id="error" layoutX="266.0" layoutY="351.0" prefHeight="17.0" prefWidth="69.0" textAlignment="CENTER" />
+      <PasswordField fx:id="pass" alignment="CENTER" layoutX="217.0" layoutY="209.0" promptText="Password" />
+      <PasswordField fx:id="confirmPass" alignment="CENTER"
+                     layoutX="217.0" layoutY="255.0" promptText="Confirm Password" />
    </children>
 </Pane>

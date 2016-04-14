@@ -75,20 +75,18 @@ public class Database {
             password, String confirmpass) {
         try {
             Connection con = getConnection();
-            if (password.equals(confirmpass)) {
-                PreparedStatement register = con.prepareStatement("INSERT into " +
-                        "Customer (Username, Password, Email) VALUES (" +
-                        statementHelper(true, username) + statementHelper
-                        (true, password) + statementHelper(false,
-                        email) + ")");
-                register.executeUpdate();
-                return new Customer(username, password, email);
-            } else {
-                //password fields didn't match -TO HANDLE-
-                return null;
-            }
+            Customer toReturn;
+            PreparedStatement register = con.prepareStatement("INSERT into " +
+                    "Customer (Username, Password, Email) VALUES (" +
+                    statementHelper(true, username) + statementHelper
+                    (true, password) + statementHelper(false,
+                    email) + ")");
+            register.executeUpdate();
+            toReturn = new Customer(username, password, email);
+            return toReturn;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("already taken");
             return null;
         }
     }

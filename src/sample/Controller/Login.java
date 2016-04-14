@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Model.Database;
@@ -24,7 +25,7 @@ public class Login implements Initializable {
     private TextField username;
 
     @FXML
-    private TextField password;
+    private PasswordField password;
 
     @FXML
     private TextField invalid;
@@ -37,11 +38,13 @@ public class Login implements Initializable {
             )) {
                 //success
                 //load new screen
-                System.out.println("Succesfully logged in as " + username
-                        .getText());
+                invalid.setVisible(true);
+                invalid.setText("Succesfully logged in!");
+                invalid.setStyle("-fx-text-fill: green;");
             } else {
                 //display error message
                 invalid.setVisible(true);
+                invalid.setText("Invalid username or password");
                 invalid.setStyle("-fx-text-fill: red;");
             }
         });

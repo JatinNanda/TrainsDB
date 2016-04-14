@@ -4,16 +4,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:controller="sample.Controller.Login" maxHeight="-Infinity"
-        maxWidth="-Infinity"
-        minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.Login">
    <children>
       <Button fx:id="login" layoutX="218.0" layoutY="239.0" mnemonicParsing="false" text="Login" />
-      <TextField fx:id="username" layoutX="217.0" layoutY="119.0" promptText="Username" />
-      <TextField fx:id="password" layoutX="218.0" layoutY="173.0" promptText="Password" />
+      <PasswordField fx:id="password" alignment="CENTER" layoutX="217.0" layoutY="179.0" promptText="Password" />
+      <TextField fx:id="username" alignment="CENTER" layoutX="217.0" layoutY="119.0" promptText="Username" />
       <Button fx:id="register" layoutX="315.0" layoutY="239.0" mnemonicParsing="false" text="Register" />
-      <TextField fx:id="invalid" layoutX="200.0" layoutY="315.0"
-                 prefHeight="27.0"
-                  prefWidth="200.0" text="Invalid username or password" />
+      <TextField fx:id="invalid" alignment="CENTER" editable="false" layoutX="200.0" layoutY="315.0" prefHeight="27.0" prefWidth="200.0" text="Invalid username or password" />
+      <Label alignment="CENTER" layoutX="170.0" layoutY="37.0" prefHeight="65.0" prefWidth="261.0" text="WELCOME TO GT TRAINS" textAlignment="CENTER" />
    </children>
 </Pane>
