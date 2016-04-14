@@ -54,7 +54,53 @@ public class Database {
         }
     }
     public static boolean loginAttempt(String username, String password) {
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "* FROM Customer WHERE Username = " +
+                    statementHelper(false, username));
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM Customer WHERE Username = " +
+                    statementHelper(false, username) + " AND " +
+                            "Password = " + statementHelper(false, password));
+            ResultSet result = attempt.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return (username.equals("wildcats") && password.equals("12345"));
+    }
+
+    public static Customer register(String username, String email, String
+            password, String confirmpass) {
+        try {
+            Connection con = getConnection();
+            if (password.equals(confirmpass)) {
+                PreparedStatement register = con.prepareStatement("INSERT into " +
+                        "Customer (Username, Password, Email) VALUES (" +
+                        statementHelper(true, username) + statementHelper
+                        (true, password) + statementHelper(false,
+                        email) + ")");
+                register.executeUpdate();
+                return new Customer(username, password, email);
+            } else {
+                //password fields didn't match -TO HANDLE-
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //makes it easier to write things into the SQL statements - must have
+    // toString method. Boolean represents if you need a comma or not.
+    public static String statementHelper(boolean comma, Object str) {
+        if (comma) {
+            return "'" + str + "', ";
+        } else {
+            return "'" + str + "'";
+        }
     }
 
     public static void main(String[] args) {
