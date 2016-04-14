@@ -38,6 +38,9 @@ public class Register implements Initializable {
     Button register;
 
     @FXML
+    Button back;
+
+    @FXML
     Label error;
 
     @Override
@@ -79,6 +82,20 @@ public class Register implements Initializable {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        back.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/login" +
+                                ".fxml"));
+                Stage current =(Stage) register.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

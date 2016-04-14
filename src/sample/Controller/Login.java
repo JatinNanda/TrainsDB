@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.Model.Customer;
 import sample.Model.Database;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +31,10 @@ public class Login implements Initializable {
     @FXML
     private TextField invalid;
 
+    //current customer logged in - not sure if necessary - use getter method
+    // to get
+    private static String currentName;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         invalid.setVisible(false);
@@ -38,6 +43,7 @@ public class Login implements Initializable {
             )) {
                 //success
                 //load new screen
+                currentName = username.getText();
                 invalid.setVisible(true);
                 invalid.setText("Succesfully logged in!");
                 invalid.setStyle("-fx-text-fill: green;");
@@ -61,5 +67,9 @@ public class Login implements Initializable {
                 e.printStackTrace();
             }
         });
+    }
+
+    public static String getName() {
+        return currentName;
     }
 }
