@@ -91,12 +91,14 @@ public class Database {
         }
     }
 
-    public static boolean verifySchool(String email) {
+    public static boolean verifySchool(String customer, String email) {
         try {
             Connection con = getConnection();
-            boolean flag = true;
             PreparedStatement verify = con.prepareStatement("UPDATE Customer" +
-                    " SET isStudent = " + flag);
+                    " SET isStudent = 1 WHERE " +
+                    "Username = " +
+                    statementHelper(false, customer));
+            //verify.setString(1, "1");
             if (email.substring(email.length() - 4).equals(".edu")) {
                 verify.executeUpdate();
                 return true;

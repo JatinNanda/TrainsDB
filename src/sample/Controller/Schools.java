@@ -35,7 +35,7 @@ public class Schools implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         error.setVisible(false);
         submit.setOnAction(event -> {
-            if (!Database.verifySchool(email.getText())) {
+            if (!Database.verifySchool(Login.getName(), email.getText())) {
                 error.setVisible(true);
                 error.setStyle("-fx-text-fill: red;");
                 error.setText("Invalid school email!");

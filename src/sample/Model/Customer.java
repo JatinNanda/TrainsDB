@@ -13,8 +13,4 @@ public class Customer {
         this.password = password;
         this.email = email;
     }
-
-    public boolean isStudent() {
-        return email.substring(email.length() - 3) == "edu";
-    }
 }
