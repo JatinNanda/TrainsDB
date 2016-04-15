@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:controller="sample.Controller.Functionality" maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="TOP_CENTER" layoutX="150.0" layoutY="41.0" prefHeight="69.0" prefWidth="251.0" text="Choose Functionality" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="schedule" alignment="CENTER" contentDisplay="CENTER" layoutX="204.0" layoutY="83.0" mnemonicParsing="false" text="View Train Schedule" textAlignment="CENTER" />
+      <Button fx:id="makeReservation" layoutX="191.0" layoutY="132.0" mnemonicParsing="false" text="Make a New Reservation" />
+      <Button fx:id="updateReservation" layoutX="201.0" layoutY="179.0" mnemonicParsing="false" text="Update a Reservation" />
+      <Button fx:id="cancelReservation" layoutX="202.0" layoutY="229.0" mnemonicParsing="false" text="Cancel a Reservation" />
+      <Button fx:id="review" layoutX="229.0" layoutY="277.0" mnemonicParsing="false" text="Give Review" />
+      <Button fx:id="school" layoutX="194.0" layoutY="325.0" mnemonicParsing="false" text="Add School Information" />
+      <Button fx:id="logout" layoutX="494.0" layoutY="339.0"
+      mnemonicParsing="false"
+              text="Logout" />
+   </children>
+</Pane>

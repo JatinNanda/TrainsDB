@@ -91,6 +91,24 @@ public class Database {
         }
     }
 
+    public static boolean verifySchool(String email) {
+        try {
+            Connection con = getConnection();
+            boolean flag = true;
+            PreparedStatement verify = con.prepareStatement("UPDATE Customer" +
+                    " SET isStudent = " + flag);
+            if (email.substring(email.length() - 4).equals(".edu")) {
+                verify.executeUpdate();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {

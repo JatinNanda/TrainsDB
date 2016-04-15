@@ -90,7 +90,7 @@ public class Register implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource
                         ("../View/login" +
                                 ".fxml"));
-                Stage current =(Stage) register.getScene().getWindow();
+                Stage current = (Stage) register.getScene().getWindow();
                 current.setTitle("GT Trains Application");
                 current.setScene(new Scene(root));
                 current.show();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.Schools">
+   <children>
+      <Label alignment="TOP_CENTER" layoutX="205.0" layoutY="49.0" prefHeight="46.0" prefWidth="181.0" text="Add School Info" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="115.0" layoutY="121.0" prefHeight="46.0" prefWidth="181.0" text="Add School Info" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="303.0" layoutY="121.0" promptText="Email" />
+      <Label layoutX="149.0" layoutY="155.0" text="Your school email address must end with a .edu" textAlignment="CENTER" />
+      <Button fx:id="back" layoutX="210.0" layoutY="187.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="submit" layoutX="316.0" layoutY="187.0" mnemonicParsing="false" text="Submit" />
+      <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="238.0" text="Invalid school email!" textAlignment="CENTER" textOverrun="CLIP">
+         <cursor>
+            <Cursor fx:constant="NONE" />
+         </cursor></Label>
+   </children>
+</Pane>

@@ -47,6 +47,17 @@ public class Login implements Initializable {
                 invalid.setVisible(true);
                 invalid.setText("Succesfully logged in!");
                 invalid.setStyle("-fx-text-fill: green;");
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource
+                            ("../View/functionality" +
+                                    ".fxml"));
+                    Stage current = (Stage) register.getScene().getWindow();
+                    current.setTitle("GT Trains Application");
+                    current.setScene(new Scene(root));
+                    current.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {
                 //display error message
                 invalid.setVisible(true);
