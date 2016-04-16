@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="backButton" layoutX="95.0" layoutY="303.0" mnemonicParsing="false" text="Back" />
+      <Label layoutX="42.0" layoutY="48.0" text="Train ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="182.0" prefHeight="38.0" prefWidth="250.0" text="SELECT DEPARTURE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="182.0" layoutY="48.0" text="Arrival Time">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="300.0" layoutY="48.0" text="Departure Time">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="432.0" layoutY="48.0" text="Train ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="42.0" layoutY="79.0" prefHeight="169.0" prefWidth="511.0">
+         <children>
+            <HBox id="box1" prefHeight="28.0" prefWidth="511.0">
+               <children>
+                  <Label id="label1" prefHeight="17.0" prefWidth="147.0" text="label" />
+                  <Label id="label2" prefHeight="17.0" prefWidth="134.0" text="Label" />
+                  <Label prefHeight="17.0" prefWidth="134.0" text="Label" />
+                  <Label prefHeight="17.0" prefWidth="134.0" text="Label" />
+               </children>
+            </HBox>
+            <HBox id="box2" prefHeight="28.0" prefWidth="511.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="159.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="147.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="147.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="147.0" text="label" />
+               </children>
+            </HBox>
+            <HBox id="box3" prefHeight="28.0" prefWidth="511.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="138.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="124.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="126.0" text="label" />
+                  <Label prefHeight="17.0" prefWidth="116.0" text="label" />
+               </children>
+            </HBox>
+            <HBox id="box4" prefHeight="27.0" prefWidth="511.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="138.0" text="Label" />
+                  <Label prefHeight="17.0" prefWidth="138.0" text="Label" />
+               </children>
+            </HBox>
+            <HBox id="box5" prefHeight="28.0" prefWidth="511.0" />
+            <HBox id="box5" prefHeight="28.0" prefWidth="511.0" />
+         </children>
+      </VBox>
+      <Button id="backButton" layoutX="417.0" layoutY="303.0" mnemonicParsing="false" text="Next" />
+   </children>
+</Pane>
