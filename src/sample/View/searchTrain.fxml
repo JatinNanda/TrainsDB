@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.searchTrain">
+   <children>
+      <Label alignment="CENTER" layoutX="153.0" layoutY="36.0" prefHeight="65.0" prefWidth="261.0" text="SEARCH TRAINS" textAlignment="CENTER" />
+      <ComboBox fx:id="departsBox" layoutX="216.0" layoutY="116.0" prefWidth="150.0" />
+      <ComboBox fx:id="arrivesBox" layoutX="216.0" layoutY="175.0" prefWidth="150.0" />
+      <DatePicker fx:id="dateBox" layoutX="216.0" layoutY="227.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="127.0" layoutY="120.0" prefWidth="75.0" text="Departs From" />
+      <Label layoutX="127.0" layoutY="179.0" text="Arrives At" />
+      <Label layoutX="124.0" layoutY="231.0" text="Departure Date" />
+      <Button layoutX="257.0" layoutY="288.0" mnemonicParsing="false" text="Find Train" />
+   </children>
+</Pane>
