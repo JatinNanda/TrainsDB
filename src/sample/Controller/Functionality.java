@@ -69,5 +69,19 @@ public class Functionality implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        newReservation.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/bags" +
+                                ".fxml"));
+                Stage current =(Stage) logout.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
