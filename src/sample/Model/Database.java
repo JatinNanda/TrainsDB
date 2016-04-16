@@ -30,6 +30,23 @@ public class Database {
         return null;
     }
 
+    public static boolean trainExists(String trainNumber) {
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "* FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNumber));
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNumber));
+            ResultSet result = attempt.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //note this method should only be called ONCE - when the tables are
     // INITIALLY created
     public static void setUp() throws Exception {
@@ -69,6 +86,25 @@ public class Database {
             e.printStackTrace();
         }
         return (username.equals("wildcats") && password.equals("12345"));
+    }
+
+    public static ResultSet getSchedule(String trainId) {
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "* FROM Stop WHERE TrainNumber = " +
+                    statementHelper(false, trainId));
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM Stop WHERE TrainNumber = " +
+                    statementHelper(false, trainId));
+            result = attempt.executeQuery();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        result = null;
+        return result;
     }
 
     public static Customer register(String username, String email, String
