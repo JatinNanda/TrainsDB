@@ -111,6 +111,42 @@ public class Database {
         }
     }
 
+    public static ResultSet getSchedule(String trainId) {
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "* FROM Stop WHERE TrainNumber = " +
+                    statementHelper(false, trainId));
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM Stop WHERE TrainNumber = " +
+                    statementHelper(false, trainId));
+            result = attempt.executeQuery();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        result = null;
+        return result;
+    }
+
+    public static boolean trainExists(String trainNumber) {
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "* FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNumber));
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNumber));
+            ResultSet result = attempt.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {
