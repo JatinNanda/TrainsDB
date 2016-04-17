@@ -85,15 +85,23 @@ public class searchTrain implements Initializable {
                    error.setStyle("-fx-text-fill: red;");
                    error.setText("No trains found");
                } else {
-                   error.setVisible(true);
-                   error.setStyle("-fx-text-fill: green;");
-                   error.setText("SUCCESS BOYS");
                    for (ArrayList<String> a : matches) {
                        System.out.println(Calculations.findDuration(a));
                        System.out.println("*************");
                        for (String s: a) {
                            System.out.println(s);
                        }
+                   }
+                   try {
+                       Parent root = FXMLLoader.load(getClass().getResource
+                               ("../View/selectDeparture" +
+                                       ".fxml"));
+                       Stage current = (Stage) back.getScene().getWindow();
+                       current.setTitle("GT Trains Application");
+                       current.setScene(new Scene(root));
+                       current.show();
+                   } catch (Exception e) {
+                       e.printStackTrace();
                    }
                }
            }
