@@ -130,6 +130,102 @@ public class Database {
         return result;
     }
 
+    public static ArrayList<String> getStations() {
+        // (used in comboBoxes)
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            PreparedStatement stations = con.prepareStatement("SELECT " +
+                    "Name, Location FROM Station");
+            result = stations.executeQuery();
+            ArrayList<String> stationsList = new ArrayList<>();
+            while (result.next()) {
+                stationsList.add(result.getString(1) + " (" + result.getString
+                        (2) + ")");
+            }
+            return stationsList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //this method returns a list of a list of attributes for each train that
+    // matched the customer's request
+    //the indices in the returning lists will be as follows:
+    //0: Train Number
+    //1: ArrivalTime
+    //2: DepartureTime
+    //3: 1st class price
+    //4: second class price
+    //5: Date requested
+    public static ArrayList<ArrayList<String>> findRequestedTrains(String departs, String arrives, String
+            date) {
+        try {
+            Connection con = getConnection();
+            ArrayList<ArrayList<String>> toReturn = new ArrayList<>();
+            String desiredStops = "%" + departs.substring(0, 2) + "%" + arrives
+                    .substring(0, 2) + "%";
+            PreparedStatement stations = con.prepareStatement("SELECT " +
+                    "DISTINCT TrainNumber FROM Stop WHERE TrainNumber LIKE "
+                    + statementHelper(false, desiredStops));
+            ResultSet matchingNames = stations.executeQuery();
+            int i = 0;
+            while (matchingNames.next()) {
+                toReturn.add(new ArrayList<String>());
+                //add station name
+                toReturn.get(i).add(matchingNames.getString(1));
+
+                //add arrival time
+                System.out.println("SELECT " +
+                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
+                        statementHelper(false, matchingNames
+                                .getString(1)) + " AND " +
+                        "StationName = " + statementHelper(false, arrives));
+                PreparedStatement arrival = con.prepareStatement("SELECT " +
+                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
+                        statementHelper(false, matchingNames
+                                .getString(1)) + " AND " +
+                        "StationName = " + statementHelper(false, arrives));
+                ResultSet arrivalTime = arrival.executeQuery();
+                while (arrivalTime.next()) {
+                    toReturn.get(i).add(arrivalTime.getString(1));
+                }
+
+                //add departureTime
+                PreparedStatement departure = con.prepareStatement("SELECT " +
+                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
+                        statementHelper(false, matchingNames
+                                .getString(1)) + " AND " +
+                        "StationName = " + statementHelper(false, departs));
+                ResultSet departureTime = departure.executeQuery();
+                while(departureTime.next()) {
+                    toReturn.get(i).add(departureTime.getString(1));
+                }
+
+                //add 1st/2nd class price
+                PreparedStatement prices = con.prepareStatement("SELECT " +
+                        "1stClassPrice, 2ndClassPrice FROM TrainRoute WHERE " +
+                        "TrainNumber = " + statementHelper(false,
+                        matchingNames.getString(1)));
+                ResultSet classPrices = prices.executeQuery();
+                while (classPrices.next()) {
+                    toReturn.get(i).add(classPrices.getString(1));
+                    toReturn.get(i).add(classPrices.getString(2));
+                }
+
+                //add the requested date
+                toReturn.get(i).add(date);
+                i++;
+            }
+            return toReturn;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public static boolean trainExists(String trainNumber) {
         try {
             Connection con = getConnection();
