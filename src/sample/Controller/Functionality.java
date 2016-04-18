@@ -40,6 +40,9 @@ public class Functionality implements Initializable {
     @FXML
     Button logout;
 
+    @FXML
+    Button test;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logout.setOnAction(event -> {
@@ -104,6 +107,20 @@ public class Functionality implements Initializable {
                         ("../View/giveReview" +
                                 ".fxml"));
                 Stage current =(Stage) logout.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        test.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/payinfo" +
+                                ".fxml"));
+                Stage current = (Stage) test.getScene().getWindow();
                 current.setTitle("GT Trains Application");
                 current.setScene(new Scene(root));
                 current.show();
