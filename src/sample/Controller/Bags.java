@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -34,14 +31,31 @@ public class Bags implements Initializable {
     @FXML
     private Label error;
 
+    @FXML
+    private Label price1stclass;
+
+    @FXML
+    private Label price2ndclass;
+
+    @FXML
+    private RadioButton button1stclass;
+
+    @FXML
+    private RadioButton button2ndclass;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //radio button labels
+        TableEntry t = selectDeparture.getDeparture();
+        price1stclass.setText(t.getPrice1());
+        price2ndclass.setText(t.getPrice2());
+
         //initialize ComboBox
         bagSelect.getItems().addAll("0", "1", "2", "3", "4");
         back.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/functionality" +
+                        ("../View/selectDeparture" +
                                 ".fxml"));
                 Stage current =(Stage) back.getScene().getWindow();
                 current.setTitle("GT Trains Application");
@@ -57,7 +71,8 @@ public class Bags implements Initializable {
             if (name.getText() == null || name.getText().equals("") ||
                     bagSelect
                     .getSelectionModel()
-                    .getSelectedItem() == null) {
+                    .getSelectedItem() == null || (!button1stclass.isSelected
+                    () && !button2ndclass.isSelected())) {
                 error.setVisible(true);
                 error.setStyle("-fx-text-fill: red;");
                 error.setText("Fill out all fields!");
@@ -67,8 +82,11 @@ public class Bags implements Initializable {
                 int bagNum = Integer.parseInt((String) bagSelect
                         .getSelectionModel()
                         .getSelectedItem());
-                System.out.println(bagNum);
                 String passName = name.getText();
+
+                //true if 1st class, false if 2nd class
+                boolean isFirst = button1stclass.isSelected();
+                System.out.println(isFirst);
             }
         });
     }
