@@ -126,7 +126,7 @@ public class Database {
         }
     }
 
-    public static ResultSet getSchedule(String trainId) {
+    public static ArrayList<String> getSchedule(String trainId) {
         ResultSet result;
         try {
             Connection con = getConnection();
@@ -137,12 +137,16 @@ public class Database {
                     "* FROM Stop WHERE TrainNumber = " +
                     statementHelper(false, trainId));
             result = attempt.executeQuery();
-            return result;
+            ArrayList<String> stops = new ArrayList<>();
+            while (result.next()) {
+                stops.add(result.getString(1) + ", " + result.getString
+                        (2) + ", " + result.getString(3) + ", " +  result.getString(4));
+            }
+            return stops;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = null;
-        return result;
+        return null;
     }
 
     public static ArrayList<String> getStations() {
