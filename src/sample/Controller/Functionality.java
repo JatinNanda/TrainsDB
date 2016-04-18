@@ -6,9 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -39,6 +36,9 @@ public class Functionality implements Initializable {
 
     @FXML
     Button logout;
+
+    @FXML
+    Button test;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,5 +97,18 @@ public class Functionality implements Initializable {
                 e.printStackTrace();
             }
         });
-    }
+
+        test.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/payinfo" +
+                                ".fxml"));
+                Stage current = (Stage) test.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });    }
 }

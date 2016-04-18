@@ -243,6 +243,50 @@ public class Database {
         return false;
     }
 
+    public static boolean addCard(int cardNum, int cardCVV, String expDate, String name, String username){
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("INSERT into " +
+                    "PaymentInfo (CardNumber, CVV, ExpDate, NameOnCard, Username) VALUES (" +
+                    cardNum + ", " + cardCVV + ", " + statementHelper(true, expDate) + statementHelper(true, name) +
+                    statementHelper(false, username) + ")");
+            attempt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static ArrayList<Integer> getUserCards(String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("SELECT CardNumber FROM `PaymentInfo` WHERE Username like '"+ username + "'");
+            ResultSet cards = attempt.executeQuery();
+            ArrayList<Integer> cardList = new ArrayList<>();
+            while(cards.next()) {
+                cardList.add(cards.getInt(1) % 10000);
+            }
+            return cardList;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean removeUserCard(int cardVal, String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("DELETE FROM PaymentInfo WHERE CardNumber LIKE '%" + cardVal +
+                    "' AND Username LIKE '" + username + "'");
+            attempt.executeUpdate();
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {
