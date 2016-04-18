@@ -32,15 +32,19 @@ public class viewSchedule implements Initializable {
     @FXML
     private Button backButton;
 
-    @FXML private TableView tableView;
-    @FXML private TableColumn UserId;
-    @FXML private TableColumn UserName;
-    @FXML private TableColumn Active;
+    @FXML
+    private TableView tableView;
+
+    @FXML
+    private TableColumn UserId;
+
+    @FXML
+    private TableColumn UserName;
+
+    @FXML
+    private TableColumn Active;
+
     private ObservableList data;
-
-
-
-
 
 
     @Override

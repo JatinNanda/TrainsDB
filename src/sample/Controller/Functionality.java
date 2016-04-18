@@ -73,7 +73,7 @@ public class Functionality implements Initializable {
         newReservation.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/bags" +
+                        ("../View/searchTrain" +
                                 ".fxml"));
                 Stage current =(Stage) logout.getScene().getWindow();
                 current.setTitle("GT Trains Application");
