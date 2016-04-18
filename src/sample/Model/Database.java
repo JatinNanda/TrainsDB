@@ -91,6 +91,21 @@ public class Database {
         }
     }
 
+    public static void addReview(int rating, String comment, String
+            username, String trainNum) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement newReview = con.prepareStatement("INSERT into " +
+                    "Review (Comment, Rating, Username, TrainNumber) VALUES (" +
+                    statementHelper(true, comment) + rating + ", " + statementHelper(true, username)
+                    + statementHelper(false, trainNum) + ")");
+            newReview.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("can't insert review for some odd reason...");
+        }
+    }
+
     public static boolean verifySchool(String customer, String email) {
         try {
             Connection con = getConnection();
