@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -126,7 +127,7 @@ public class Database {
         }
     }
 
-    public static ResultSet getSchedule(String trainId) {
+    public static ArrayList<String> getSchedule(String trainId) {
         ResultSet result;
         try {
             Connection con = getConnection();
@@ -137,12 +138,16 @@ public class Database {
                     "* FROM Stop WHERE TrainNumber = " +
                     statementHelper(false, trainId));
             result = attempt.executeQuery();
-            return result;
+            ArrayList<String> stops = new ArrayList<>();
+            while (result.next()) {
+                stops.add(result.getString(1) + ", " + result.getString
+                        (2) + ", " + result.getString(3) + ", " +  result.getString(4));
+            }
+            return stops;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = null;
-        return result;
+        return null;
     }
 
     public static ArrayList<String> getStations() {
@@ -174,6 +179,8 @@ public class Database {
     //3: 1st class price
     //4: second class price
     //5: Date requested
+    //6: Arrival Location
+    //7: Departure Location
     public static ArrayList<ArrayList<String>> findRequestedTrains(String departs, String arrives, String
             date) {
         try {
@@ -231,6 +238,10 @@ public class Database {
 
                 //add the requested date
                 toReturn.get(i).add(date);
+                //add arrival location
+                toReturn.get(i).add(arrives);
+                //add departure location
+                toReturn.get(i).add(departs);
                 i++;
             }
             return toReturn;
@@ -258,6 +269,106 @@ public class Database {
         return false;
     }
 
+    public static boolean addCard(int cardNum, int cardCVV, String expDate, String name, String username){
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("INSERT into " +
+                    "PaymentInfo (CardNumber, CVV, ExpDate, NameOnCard, Username) VALUES (" +
+                    cardNum + ", " + cardCVV + ", " + statementHelper(true, expDate) + statementHelper(true, name) +
+                    statementHelper(false, username) + ")");
+            attempt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static ArrayList<Integer> getUserCards(String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("SELECT CardNumber FROM `PaymentInfo` WHERE Username like '"+ username + "'");
+            ResultSet cards = attempt.executeQuery();
+            ArrayList<Integer> cardList = new ArrayList<>();
+            while(cards.next()) {
+                cardList.add(cards.getInt(1) % 10000);
+            }
+            return cardList;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean removeUserCard(int cardVal, String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("DELETE FROM PaymentInfo WHERE CardNumber LIKE '%" + cardVal +
+                    "' AND Username LIKE '" + username + "'");
+            attempt.executeUpdate();
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean checkStudent(String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement check = con.prepareStatement("SELECT " +
+                    "isStudent FROM Customer WHERE Username = " +
+                    statementHelper(false, username)) ;
+            ResultSet result = check.executeQuery();
+            while (result.next()) {
+                System.out.println(result);
+            }
+
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean addSelectedReservations(List<Reserves>
+                                                          reservations) {
+        try {
+            Connection con = getConnection();
+            for (Reserves r: reservations) {
+                System.out.println("INSERT into " +
+                        "Reserves (ReservationId, TrainNumber, Class, " +
+                        "DepartureDate, PassengerName, NumberOfBags, " +
+                        "DepartsFrom, ArrivesAt) VALUES (" + statementHelper
+                        (true, r.getReservationId()) + statementHelper(true,
+                        r.getTrainNumber()) + booleanHelper(r.isClasstype()) +
+                        statementHelper(true, r
+                                .getDepartureDate()) + statementHelper(true, r
+                        .getName()) + statementHelper(true, r
+                        .getNumBags()) + statementHelper(true, r
+                        .getDepartsFrom()) + statementHelper(false, r
+                        .getArrivesAt()) + ")");
+                PreparedStatement check = con.prepareStatement("INSERT into " +
+                        "Reserves (ReservationId, TrainNumber, Class, " +
+                        "DepartureDate, PassengerName, NumberOfBags, " +
+                        "DepartsFrom, ArrivesAt) VALUES (" + statementHelper
+                        (true, r.getReservationId()) + statementHelper(true,
+                        r.getTrainNumber()) + booleanHelper(r.isClasstype()) +
+                        statementHelper(true, r
+                                .getDepartureDate()) + statementHelper(true, r
+                                .getName()) + statementHelper(true, r
+                                .getNumBags()) + statementHelper(true, r
+                                .getDepartsFrom()) + statementHelper(false, r
+                                .getArrivesAt()) + ")");
+                check.executeUpdate();
+            }
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {
@@ -266,6 +377,10 @@ public class Database {
         } else {
             return "'" + str + "'";
         }
+    }
+
+    public static String booleanHelper(boolean flag) {
+        return flag ? "1, " : "0, ";
     }
 
     public static void main(String[] args) {

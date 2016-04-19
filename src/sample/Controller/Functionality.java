@@ -40,6 +40,7 @@ public class Functionality implements Initializable {
     @FXML
     Button logout;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logout.setOnAction(event -> {

@@ -1,24 +1,22 @@
 package sample.Model;
 
-import java.time.LocalDate;
-
 /**
  * Created by jatin1 on 3/23/16.
  */
 public class Reserves {
-    int reservationId;
+    long reservationId;
     String trainNumber;
     boolean classtype;
-    LocalDate departureDate;
+    String departureDate;
     String name;
     int numBags;
     String departsFrom;
     String arrivesAt;
+    double selectedPrice;
 
-    public Reserves(int reservationId, String trainNumber, boolean
-            classType, LocalDate departureDate, String name, int numBags,
+    public Reserves(String trainNumber, boolean
+            classType, String departureDate, String name, int numBags,
                     String departsFrom, String arrivesAt) {
-        this.reservationId = reservationId;
         this.trainNumber = trainNumber;
         this.classtype = classType;
         this.departureDate = departureDate;
@@ -26,5 +24,47 @@ public class Reserves {
         this.numBags = numBags;
         this.departsFrom = departsFrom;
         this.arrivesAt = arrivesAt;
+    }
+
+    public String getArrivesAt() {
+        return arrivesAt;
+    }
+
+    public String getTrainNumber() {
+        return trainNumber;
+    }
+
+    public boolean isClasstype() {
+        return classtype;
+    }
+
+    public String getDepartureDate() {
+        return departureDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getNumBags() {
+        return numBags;
+    }
+
+    public String getDepartsFrom() {
+        return departsFrom;
+    }
+
+    public long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(long id) {this.reservationId = id; }
+
+    public void setSelectedPrice(double price) {
+        this.selectedPrice = price;
+    }
+
+    public double getSelectedPrice() {
+        return this.selectedPrice;
     }
 }

@@ -55,11 +55,11 @@ Username varchar(30) NOT NULL,
 Password varchar(30) NOT NULL,
 PRIMARY KEY (Username)
 );
-CREATE TABLE Reserves (
-ReservationId int NOT NULL AUTO_INCREMENT,
+CREATE TABLE Reserves
+ReservationId int NOT NULL,
 TrainNumber varchar(40) NOT NULL,
 Class bit NOT NULL,
-DepartureDate Date NOT NULL,
+DepartureDate varChar(255) NOT NULL,
 PassengerName varchar(40) NOT NULL,
 NumberOfBags int NOT NULL DEFAULT 0,
 DepartsFrom varChar(40) NOT NULL,

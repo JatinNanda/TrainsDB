@@ -10,7 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sample.Model.Calculations;
 import sample.Model.Database;
 import sample.Model.Stop;
 
@@ -20,6 +22,7 @@ import javax.swing.text.html.ListView;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,67 +33,72 @@ import java.util.ResourceBundle;
 public class viewSchedule implements Initializable {
 
     @FXML
-    private Button backButton;
+    private Button back;
 
     @FXML
-    private TableView tableView;
+    private Button next;
 
     @FXML
-    private TableColumn UserId;
+    private javafx.scene.control.TableView<ScheduleEntry> table;
 
     @FXML
-    private TableColumn UserName;
+    private javafx.scene.control.TableColumn trainCol;
 
     @FXML
-    private TableColumn Active;
+    private javafx.scene.control.TableColumn stationCol;
 
-    private ObservableList data;
+    @FXML
+    private javafx.scene.control.TableColumn arrivalCol;
 
+    @FXML
+    private javafx.scene.control.TableColumn departCol;
 
-    @Override
+    ObservableList backing = FXCollections.observableArrayList();
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            data = FXCollections.observableArrayList();
-            ResultSet result = Database.getSchedule(searchSchedule.getTrainId());
-//            ResultSetMetaData rsmd = result.getMetaData();
-//            int columnsNumber = rsmd.getColumnCount();
-//            while (result.next()) {
-//                for (int i = 1; i <= columnsNumber; i++) {
-//                    if (i > 1) System.out.print(",  ");
-//                    String columnValue = result.getString(i);
-//                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
-//                }
-//            }
-            while (result.next()) {
-                ObservableList row = FXCollections.observableArrayList();
-                for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-                    row.add(result.getString(i));
-                    System.out.println(row);
-                }
-                data.add(row);
+        table.setItems(backing);
+        trainCol.setCellValueFactory(new PropertyValueFactory<ScheduleEntry,
+                String>("train"));
+        stationCol.setCellValueFactory(new PropertyValueFactory<ScheduleEntry,
+                String>("station"));
+        arrivalCol.setCellValueFactory(new PropertyValueFactory<ScheduleEntry,
+                Integer>("arrival"));
+        departCol.setCellValueFactory(new PropertyValueFactory<ScheduleEntry,
+                Integer>("departure"));
+        int i = 1;
+        for (String a: Database.getSchedule(searchSchedule.getTrainId())) {
+            String[] tokens = a.split(",", -1);
+            System.out.println(tokens[0]);
+            System.out.println(tokens[1]);
+            System.out.println(tokens[2]);
+            ScheduleEntry t = new ScheduleEntry();
+            if(i==1) {
+                t.train.set(tokens[0]);
             }
-            //tableView.setItems(data);
-        } catch (Exception e) {
-            e.printStackTrace();
+            t.station.set(tokens[1]);
+            t.arrival.set(tokens[2]);
+            t.departure.set(tokens[3]);
+            backing.add(t);
+            i++;
         }
 
-        backButton.setOnAction(event -> {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/functionality" +
-                                ".fxml"));
-                Stage current = (Stage) backButton.getScene().getWindow();
-                current.setTitle("GT Trains Application");
-                current.setScene(new Scene(root));
-                current.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            back.setOnAction(event -> {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource
+                            ("../View/functionality" +
+                                    ".fxml"));
+                    Stage current = (Stage) back.getScene().getWindow();
+                    current.setTitle("GT Trains Application");
+                    current.setScene(new Scene(root));
+                    current.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
         }
 
 
     }
+
 
 
