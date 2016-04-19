@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -174,6 +175,8 @@ public class Database {
     //3: 1st class price
     //4: second class price
     //5: Date requested
+    //6: Arrival Location
+    //7: Departure Location
     public static ArrayList<ArrayList<String>> findRequestedTrains(String departs, String arrives, String
             date) {
         try {
@@ -231,6 +234,10 @@ public class Database {
 
                 //add the requested date
                 toReturn.get(i).add(date);
+                //add arrival location
+                toReturn.get(i).add(arrives);
+                //add departure location
+                toReturn.get(i).add(departs);
                 i++;
             }
             return toReturn;
@@ -302,6 +309,62 @@ public class Database {
         }
     }
 
+    public static boolean checkStudent(String username) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement check = con.prepareStatement("SELECT " +
+                    "isStudent FROM Customer WHERE Username = " +
+                    statementHelper(false, username)) ;
+            ResultSet result = check.executeQuery();
+            while (result.next()) {
+                System.out.println(result);
+            }
+
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean addSelectedReservations(List<Reserves>
+                                                          reservations) {
+        try {
+            Connection con = getConnection();
+            for (Reserves r: reservations) {
+                System.out.println("INSERT into " +
+                        "Reserves (ReservationId, TrainNumber, Class, " +
+                        "DepartureDate, PassengerName, NumberOfBags, " +
+                        "DepartsFrom, ArrivesAt) VALUES (" + statementHelper
+                        (true, r.getReservationId()) + statementHelper(true,
+                        r.getTrainNumber()) + booleanHelper(r.isClasstype()) +
+                        statementHelper(true, r
+                                .getDepartureDate()) + statementHelper(true, r
+                        .getName()) + statementHelper(true, r
+                        .getNumBags()) + statementHelper(true, r
+                        .getDepartsFrom()) + statementHelper(false, r
+                        .getArrivesAt()) + ")");
+                PreparedStatement check = con.prepareStatement("INSERT into " +
+                        "Reserves (ReservationId, TrainNumber, Class, " +
+                        "DepartureDate, PassengerName, NumberOfBags, " +
+                        "DepartsFrom, ArrivesAt) VALUES (" + statementHelper
+                        (true, r.getReservationId()) + statementHelper(true,
+                        r.getTrainNumber()) + booleanHelper(r.isClasstype()) +
+                        statementHelper(true, r
+                                .getDepartureDate()) + statementHelper(true, r
+                                .getName()) + statementHelper(true, r
+                                .getNumBags()) + statementHelper(true, r
+                                .getDepartsFrom()) + statementHelper(false, r
+                                .getArrivesAt()) + ")");
+                check.executeUpdate();
+            }
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {
@@ -310,6 +373,10 @@ public class Database {
         } else {
             return "'" + str + "'";
         }
+    }
+
+    public static String booleanHelper(boolean flag) {
+        return flag ? "1, " : "0, ";
     }
 
     public static void main(String[] args) {

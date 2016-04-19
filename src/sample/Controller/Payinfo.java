@@ -98,11 +98,10 @@ public class Payinfo implements Initializable{
             }
         });
 
-        //THIS DIRECTORY NEEDS TO BE CHANGED TO WHATEVER THE NAME IS MADE
         back.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/functionality" +
+                        ("../View/MakeReservation" +
                                 ".fxml"));
                 Stage current = (Stage) back.getScene().getWindow();
                 current.setTitle("GT Trains Application");

@@ -47,6 +47,8 @@ public class selectDeparture implements Initializable {
     @FXML
     private Label error;
 
+    private static int matchingIndex;
+
     private static TableEntry toSave;
 
     ObservableList backing = FXCollections.observableArrayList();
@@ -100,6 +102,14 @@ public class selectDeparture implements Initializable {
                 error.setStyle("-fx-text-fill: red;");
             } else {
                 try {
+                    int i = 0;
+                    for (ArrayList<String> l : searchTrain.getMatches()) {
+                        if (l.get(i).equals(toSave.getName())) {
+                            matchingIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
                     Parent root = FXMLLoader.load(getClass().getResource
                             ("../View/bags" +
                                     ".fxml"));
@@ -116,5 +126,12 @@ public class selectDeparture implements Initializable {
 
     public static TableEntry getDeparture() {
         return toSave;
+    }
+    //index in matches that has more data about the reservation
+    public static String getTime() {
+        return toSave.getTime();
+    }
+    public static int getMatchingIndex() {
+        return matchingIndex;
     }
 }

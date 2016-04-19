@@ -7,8 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import sample.Model.Calculations;
+import sample.Model.Reservation;
+import sample.Model.Reserves;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -43,6 +47,10 @@ public class Bags implements Initializable {
     @FXML
     private RadioButton button2ndclass;
 
+    private static Reserves newReservation;
+
+    private static boolean isFirst;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //radio button labels
@@ -68,7 +76,7 @@ public class Bags implements Initializable {
 
         next.setOnAction(event -> {
             error.setVisible(false);
-            if (name.getText() == null || name.getText().equals("") ||
+            if (name.getText().equals("") ||
                     bagSelect
                     .getSelectionModel()
                     .getSelectedItem() == null || (!button1stclass.isSelected
@@ -85,9 +93,48 @@ public class Bags implements Initializable {
                 String passName = name.getText();
 
                 //true if 1st class, false if 2nd class
-                boolean isFirst = button1stclass.isSelected();
+                isFirst = button1stclass.isSelected();
                 System.out.println(isFirst);
+
+                //get more info
+                ArrayList<String> resInfo = searchTrain.getMatches().get(
+                selectDeparture
+                        .getMatchingIndex());
+
+                String completeDate = resInfo.get(5) + "\n" + selectDeparture
+                .getTime();
+                System.out.println(completeDate);
+                newReservation = new Reserves(resInfo.get(0),
+                        isFirst, completeDate, passName, bagNum, resInfo
+                        .get(7), resInfo.get(6));
+
+                Reserves r = newReservation;
+                String price = Bags.getSelectedPrice();
+                price = price.substring(1, price.length());
+                r.setSelectedPrice(Double.parseDouble(price));
+                Calculations.getReservations().add(r);
+
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource
+                            ("../View/MakeReservation" +
+                                    ".fxml"));
+                    Stage current =(Stage) back.getScene().getWindow();
+                    current.setTitle("GT Trains Application");
+                    current.setScene(new Scene(root));
+                    current.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    public static Reserves getReservation() {
+        return newReservation;
+    }
+
+    public static String getSelectedPrice() {
+        TableEntry t = selectDeparture.getDeparture();
+        return isFirst ? t.getPrice1() : t.getPrice2();
     }
 }

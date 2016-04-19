@@ -117,6 +117,8 @@ public class searchTrain implements Initializable {
     //3: 1st class price
     //4: second class price
     //5: Date requested
+    //6: Arrival Location
+    //7: Departure Location
     public static ArrayList<ArrayList<String>> getMatches() {
         return matches;
     }

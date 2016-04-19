@@ -19,6 +19,5 @@
       <Button fx:id="review" layoutX="229.0" layoutY="277.0" mnemonicParsing="false" text="Give Review" />
       <Button fx:id="school" layoutX="194.0" layoutY="325.0" mnemonicParsing="false" text="Add School Information" />
       <Button fx:id="logout" layoutX="494.0" layoutY="339.0" mnemonicParsing="false" text="Logout" />
-      <Button fx:id="test" layoutX="468.0" layoutY="179.0" mnemonicParsing="false" text="test" />
    </children>
 </Pane>

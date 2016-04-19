@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.MakeReservation">
+   <children>
+      <Label layoutX="442.0" layoutY="23.0" text="Make Reservation">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="223.0" layoutY="297.0" />
+      <TableView fx:id="table" layoutX="1.0" layoutY="106.0" prefHeight="294.0" prefWidth="1006.0">
+        <columns>
+          <TableColumn fx:id="trainCol" prefWidth="79.08503913879395" text="Train" />
+          <TableColumn fx:id="timeCol" prefWidth="153.23128509521484" text="Time" />
+            <TableColumn fx:id="departsCol" prefWidth="161.402099609375" text="Departs From" />
+            <TableColumn fx:id="arrivesCol" prefWidth="166.59786987304688" text="Arrives At" />
+            <TableColumn fx:id="classCol" prefWidth="120.66281127929688" text="Class" />
+            <TableColumn fx:id="priceCol" prefWidth="83.52386474609375" text="Price" />
+            <TableColumn fx:id="bagCol" prefWidth="72.52392578125" text="Bags" />
+            <TableColumn fx:id="passengerCol" prefWidth="162.35968017578125" text="Passenger" />
+        </columns>
+      </TableView>
+      <Label layoutX="12.0" layoutY="81.0" text="Selected Ticket(s):" />
+      <Label fx:id="discount" layoutX="68.0" layoutY="413.0" text="No student discount applied - register your email!" />
+      <Label layoutX="75.0" layoutY="441.0" text="Total Cost" />
+      <Label layoutX="74.0" layoutY="497.0" text="Use Card" />
+      <Label fx:id="cost" layoutX="171.0" layoutY="442.0" prefHeight="17.0" prefWidth="63.0" />
+      <ComboBox fx:id="combo" layoutX="151.0" layoutY="489.0" prefHeight="27.0" prefWidth="80.0" />
+      <Button fx:id="back" layoutX="417.0" layoutY="534.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="submit" layoutX="561.0" layoutY="536.0" mnemonicParsing="false" text="Submit" />
+      <Button fx:id="addCard" layoutX="250.0" layoutY="489.0" mnemonicParsing="false" text="Add Card" />
+      <Button fx:id="again" layoutX="670.0" layoutY="440.0" mnemonicParsing="false" text="Add New Train" />
+      <Button fx:id="remove" layoutX="817.0" layoutY="439.0" mnemonicParsing="false" text="Remove Selected Train" />
+      <Label fx:id="error" layoutX="761.0" layoutY="528.0" text="Label" visible="false" />
+   </children>
+</Pane>
