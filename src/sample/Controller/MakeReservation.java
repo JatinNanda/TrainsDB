@@ -213,6 +213,17 @@ public class MakeReservation implements Initializable {
                         .getReservations())) {
                     error.setStyle("-fx-text-fill: green;");
                     error.setText("Success!!");
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource
+                                ("../View/confirmation" +
+                                        ".fxml"));
+                        Stage current =(Stage) back.getScene().getWindow();
+                        current.setTitle("GT Trains Application");
+                        current.setScene(new Scene(root));
+                        current.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     error.setStyle("-fx-text-fill: red;");
                     error.setText("Remove duplicate tickets!");

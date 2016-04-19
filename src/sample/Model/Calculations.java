@@ -53,6 +53,12 @@ public class Calculations {
         return (long)(Math.random()*100000);
     }
 
+    public static long clear() {
+        long ret = reservations.get(0).getReservationId();
+        reservations = new LinkedList<Reserves>();
+        return ret;
+    }
+
     public static LinkedList<Reserves> getReservations() {
         return reservations;
     }
