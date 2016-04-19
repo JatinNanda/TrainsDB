@@ -207,12 +207,11 @@ public class MakeReservation implements Initializable {
                 error.setStyle("-fx-text-fill: red;");
             } else {
                 error.setVisible(true);
-                error.setText("Success...still haven't added to DB");
-                error.setStyle("-fx-text-fill: green;");
                 //make the transaction
                 Calculations.generateID();
                 if (Database.addSelectedReservations(Calculations
                         .getReservations())) {
+                    error.setStyle("-fx-text-fill: green;");
                     error.setText("Success!!");
                 } else {
                     error.setStyle("-fx-text-fill: red;");
