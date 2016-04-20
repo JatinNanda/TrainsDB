@@ -33,6 +33,9 @@ import java.util.ResourceBundle;
 public class viewSchedule implements Initializable {
 
     @FXML
+    private Button review;
+
+    @FXML
     private Button back;
 
     @FXML
@@ -81,24 +84,37 @@ public class viewSchedule implements Initializable {
             i++;
         }
 
-            back.setOnAction(event -> {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource
-                            ("../View/functionality" +
-                                    ".fxml"));
-                    Stage current = (Stage) back.getScene().getWindow();
-                    current.setTitle("GT Trains Application");
-                    current.setScene(new Scene(root));
-                    current.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+        review.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/viewreview1.fxml"));
+                Stage current = (Stage) back.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
-        }
-
+        back.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/functionality" +
+                                ".fxml"));
+                Stage current = (Stage) back.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
     }
+
+
+}
 
 
 
