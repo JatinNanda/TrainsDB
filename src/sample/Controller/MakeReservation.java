@@ -209,12 +209,13 @@ public class MakeReservation implements Initializable {
             } else {
                 error.setVisible(true);
                 //make the transaction
-                cardNum = Database.getCardNumber(String.valueOf((Integer) combo
+                cardNum = Database.getCardNumber((String) combo
                         .getSelectionModel()
-                        .getSelectedItem()));
+                        .getSelectedItem());
                 Calculations.generateID();
                 if (Database.addSelectedReservations(Calculations
-                        .getReservations())) {
+                        .getReservations(), Double.parseDouble(cost
+                        .getText().substring(1, cost.getText().length())))) {
                     error.setStyle("-fx-text-fill: green;");
                     error.setText("Success!!");
                     try {

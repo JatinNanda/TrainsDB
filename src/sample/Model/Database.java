@@ -441,17 +441,18 @@ public class Database {
     }
 
     public static boolean addSelectedReservations(List<Reserves>
-                                                          reservations) {
+                                                          reservations,
+                                                  double price) {
         try {
             Connection con = getConnection();
             Reserves first = reservations.get(0);
             PreparedStatement reservation = con.prepareStatement("INSERT" +
                     " into Reservation (ReservationId, isCancelled, " +
-                    "Username, CardNumber) VALUES (" + statementHelper
+                    "Username, CardNumber, Price) VALUES (" + statementHelper
                     (true, first.getReservationId()) + "0, " + statementHelper
                     (true, Login
-                            .getName()) + statementHelper(false, MakeReservation
-                    .getCard()) + ")");
+                            .getName()) + statementHelper(true, MakeReservation
+                    .getCard()) + statementHelper(false, price) + ")");
             reservation.executeUpdate();
             for (Reserves r : reservations) {
                 PreparedStatement reserves = con.prepareStatement("INSERT " +

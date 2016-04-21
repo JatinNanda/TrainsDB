@@ -13,6 +13,7 @@ public class Reserves {
     String departsFrom;
     String arrivesAt;
     double selectedPrice;
+    double ticketPrice;
 
     public Reserves(String trainNumber, boolean
             classType, String departureDate, String name, int numBags,
@@ -62,6 +63,10 @@ public class Reserves {
 
     public void setSelectedPrice(double price) {
         this.selectedPrice = price;
+    }
+
+    public double getTicketPrice() {
+        return this.ticketPrice;
     }
 
     public double getSelectedPrice() {
