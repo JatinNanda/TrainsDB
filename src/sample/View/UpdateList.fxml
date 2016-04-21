@@ -12,7 +12,7 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <TableView fx:id="table" layoutX="1.0" layoutY="106.0" prefHeight="116.0" prefWidth="1006.0">
+        <TableView fx:id="table" layoutX="1.0" layoutY="106.0" prefHeight="99.0" prefWidth="1006.0">
             <columns>
                 <TableColumn fx:id="trainCol" prefWidth="79.08503913879395" text="Train" />
                 <TableColumn fx:id="timeCol" prefWidth="153.23128509521484" text="Time" />
@@ -25,10 +25,10 @@
             </columns>
         </TableView>
         <Label layoutX="12.0" layoutY="81.0" text="Selected a Ticket to update the date for:" />
-        <Button fx:id="back" layoutX="361.0" layoutY="561.0" mnemonicParsing="false" text="Update Another" />
-        <Button fx:id="submit" layoutX="523.0" layoutY="562.0" mnemonicParsing="false" text="Back to Functionality" />
+        <Button fx:id="another" layoutX="361.0" layoutY="561.0" mnemonicParsing="false" text="Update Another" />
+        <Button fx:id="back" layoutX="523.0" layoutY="562.0" mnemonicParsing="false" text="Back to Functionality" />
         <Label layoutX="370.0" layoutY="238.0" prefHeight="12.0" prefWidth="107.0" text="Enter a New Date" />
-      <TableView fx:id="table1" layoutX="-1.0" layoutY="373.0" prefHeight="116.0" prefWidth="1010.0">
+      <TableView fx:id="table1" layoutX="-1.0" layoutY="373.0" prefHeight="99.0" prefWidth="1010.0">
          <columns>
             <TableColumn fx:id="trainCol1" prefWidth="79.08503913879395" text="Train" />
             <TableColumn fx:id="timeCol1" prefWidth="153.23128509521484" text="Time" />
@@ -45,7 +45,8 @@
       <Label layoutX="88.0" layoutY="507.0" text="Change Fee" />
       <Label layoutX="88.0" layoutY="548.0" text="Updated Total Cost" />
       <Label fx:id="fee" layoutX="217.0" layoutY="507.0" text="\$50.00" />
-      <Label fx:id="cost" layoutX="227.0" layoutY="548.0" text="Label" />
-      <Button fx:id="verify" layoutX="470.0" layoutY="277.0" mnemonicParsing="false" text="Verify Date" />
+      <Label fx:id="costUpdated" layoutX="227.0" layoutY="548.0" text="Label" />
+      <Button fx:id="verify" layoutX="424.0" layoutY="282.0" mnemonicParsing="false" text="Verify and Upate" />
+      <Label fx:id="error" layoutX="431.0" layoutY="323.0" prefHeight="12.0" prefWidth="107.0" text="Enter a New Date" visible="false" />
     </children>
 </Pane>

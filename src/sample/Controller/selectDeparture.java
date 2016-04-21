@@ -104,8 +104,9 @@ public class selectDeparture implements Initializable {
                 try {
                     int i = 0;
                     for (ArrayList<String> l : searchTrain.getMatches()) {
-                        if (l.get(i).equals(toSave.getName())) {
+                        if ((l.get(0).equals(toSave.getName()))) {
                             matchingIndex = i;
+                            System.out.println(l.get(0));
                             break;
                         }
                         i++;

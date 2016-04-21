@@ -59,6 +59,8 @@ public class UpdateReservation implements Initializable {
     @FXML
     private TableView<TableEntryReserve> table;
 
+    private static TableEntryReserve toUpdateEntry;
+
     ObservableList backing = FXCollections.observableArrayList();
 
 
@@ -116,6 +118,7 @@ public class UpdateReservation implements Initializable {
         });
 
         submit.setOnAction(event -> {
+            toUpdateEntry = table.getSelectionModel().getSelectedItem();
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
                         ("../View/UpdateList" +
@@ -129,5 +132,9 @@ public class UpdateReservation implements Initializable {
             }
         });
 
+    }
+
+    public static TableEntryReserve getEntry() {
+        return toUpdateEntry;
     }
 }
