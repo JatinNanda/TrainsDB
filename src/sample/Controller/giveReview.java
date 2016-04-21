@@ -52,7 +52,7 @@ public class giveReview implements Initializable{
         } else if (rating.equals("Bad")) {
             System.out.println("rating: 3");
             return 3;
-        } else if (rating.equals("Neutral")) {
+        } else if (rating.equals("Very Bad")) {
             System.out.println("rating: 1");
             return 1;
         } else { // SHOULD NEVER COME HERE!!!
@@ -85,7 +85,13 @@ public class giveReview implements Initializable{
                     // puts into database, then goes back to functionality page
                     String ratingInsert = (String) rating.getSelectionModel().getSelectedItem();
                     System.out.println("rating: " + ratingInsert);
-                    Database.addReview(ratingToInt((String) rating.getSelectionModel().getSelectedItem()), comment.getText(),
+                    System.out.println("comment: " + comment.getText());
+                    String insertComment = comment.getText();
+                    if (comment.getText().length() < 1) {
+//                        System.out.println("HEREEEE");
+                        insertComment = null;
+                    }
+                    Database.addReview(ratingToInt((String) rating.getSelectionModel().getSelectedItem()), insertComment,
                             Login.getName(), trainNum.getText());
 
                     try {

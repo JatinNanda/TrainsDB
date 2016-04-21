@@ -19,10 +19,11 @@
         <columns>
           <TableColumn fx:id="trainCol" prefWidth="126.0" text="Train Number" />
           <TableColumn fx:id="stationCol" prefWidth="238.0" text="Station" />
-            <TableColumn fx:id="arrivalCol"  prefWidth="113.0" text="Arrival Time" />
-            <TableColumn fx:id="departCol"  prefWidth="115.0" text="Departure Time" />
+            <TableColumn fx:id="arrivalCol" prefWidth="113.0" text="Arrival Time" />
+            <TableColumn fx:id="departCol" prefWidth="115.0" text="Departure Time" />
         </columns>
       </TableView>
       <Label fx:id="error" layoutX="235.0" layoutY="322.0" text="Label" visible="false" />
+      <Button fx:id="review" layoutX="417.0" layoutY="303.0" mnemonicParsing="false" text="View Reviews" />
    </children>
 </Pane>

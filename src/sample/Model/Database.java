@@ -99,6 +99,10 @@ public class Database {
             username, String trainNum) {
         try {
             Connection con = getConnection();
+            System.out.println(("INSERT into " +
+                    "Review (Comment, Rating, Username, TrainNumber) VALUES (" +
+                    statementHelper(true, comment) + rating + ", " + statementHelper(true, username)
+                    + statementHelper(false, trainNum) + ")"));
             PreparedStatement newReview = con.prepareStatement("INSERT into " +
                     "Review (Comment, Rating, Username, TrainNumber) VALUES (" +
                     statementHelper(true, comment) + rating + ", " + statementHelper(true, username)
@@ -147,6 +151,73 @@ public class Database {
                         (2) + ", " + result.getString(3) + ", " +  result.getString(4));
             }
             return stops;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static ArrayList<String> getGoodReview(String trainId) {
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating > 6 AND Comment IS NOT NULL"); // 5 , 3, 1
+            PreparedStatement attempt = con.prepareStatement("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating > 6 AND Comment IS NOT NULL");
+            result = attempt.executeQuery();
+            ArrayList<String> good = new ArrayList<>();
+            while (result.next()) {
+                good.add(result.getString(1));
+            }
+            return good;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<String> getNeutralReview(String trainId) {
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating = 5 AND Comment IS NOT NULL");
+            PreparedStatement attempt = con.prepareStatement("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating = 5 AND Comment IS NOT NULL");
+            result = attempt.executeQuery();
+            ArrayList<String> neutral = new ArrayList<>();
+            while (result.next()) {
+                neutral.add(result.getString(1));
+            }
+            return neutral;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<String> getBadReview(String trainId) {
+        ResultSet result;
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating < 4 AND Comment IS NOT NULL");
+            PreparedStatement attempt = con.prepareStatement("SELECT COMMENT FROM Review " +
+                    "WHERE TrainNumber = \"" + trainId +
+                    "\" AND Rating < 4 AND Comment IS NOT NULL");
+            result = attempt.executeQuery();
+            ArrayList<String> bad = new ArrayList<>();
+            while (result.next()) {
+                bad.add(result.getString(1));
+            }
+            return bad;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -439,4 +510,71 @@ public class Database {
             System.out.println(e);
         }
     }
+
+
+
+
+//
+//    public static int getGoodCount(String trainId) {
+//        ResultSet result;
+//        try {
+//            Connection con = getConnection();
+//            System.out.println("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating > 6) AND Comment IS NOT NULL"); // 5 , 3, 1
+//            PreparedStatement attempt = con.prepareStatement("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating > 6) AND Comment IS NOT NULL");
+//            result = attempt.executeQuery();
+//            int good = Integer.parseInt(result.getString(1));
+//            return good;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
+//
+//    public static int getBadCount(String trainId) {
+//        ResultSet result;
+//        try {
+//            Connection con = getConnection();
+//            System.out.println("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating < 4) AND Comment IS NOT NULL");
+//            PreparedStatement attempt = con.prepareStatement("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating < 4) AND Comment IS NOT NULL");
+//            result = attempt.executeQuery();
+//            int bad = Integer.parseInt(result.getString(1));
+//            return bad;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
+//
+//    public static int getNeutralCount(String trainId) {
+//        ResultSet result;
+//        try {
+//            Connection con = getConnection();
+//            System.out.println("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating = 5) AND Comment IS NOT NULL");
+//            PreparedStatement attempt = con.prepareStatement("SELECT " +
+//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
+//                    statementHelper(false, trainId) +
+//                    " AND (Rating = 5) AND Comment IS NOT NULL");
+//            result = attempt.executeQuery();
+//            int neutral = Integer.parseInt(result.getString(1));
+//            return neutral;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
 }
