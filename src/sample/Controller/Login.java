@@ -10,8 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sample.Model.Customer;
 import sample.Model.Database;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,7 +39,20 @@ public class Login implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         invalid.setVisible(false);
         login.setOnAction((event) -> {
-            if (Database.loginAttempt(username.getText(), password.getText()
+            if (Database.managerLoginAttempt(username.getText(), password.getText())) {
+                currentName = username.getText();
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource
+                            ("../View/managerFront" +
+                                    ".fxml"));
+                    Stage current = (Stage) register.getScene().getWindow();
+                    current.setTitle("GT Trains Application");
+                    current.setScene(new Scene(root));
+                    current.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (Database.loginAttempt(username.getText(), password.getText()
             )) {
                 //success
                 //load new screen

@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
 /**
  * Created by Raymond on 4/16/2016.
  */
@@ -71,26 +73,40 @@ public class Payinfo implements Initializable{
         addCardButt.setOnAction(event -> {
             String nameStr = cardName.getText();
             LocalDate expDT = expDate.getValue();
-            String exp = expDT.format(formatter);
             String numText = cardNum.getText();
             String CVVtext = cardCVV.getText();
-            if (nameStr == null || numText == null || exp == null || CVVtext == null) {
+            if (nameStr.equals("") || numText.equals("") || expDT == null || CVVtext.equals("")) {
+                error.setText("Please fill in all the fields!");
                 error.setVisible(true);
                 success.setVisible(false);
-                error.setText("Please fill in all the fields!");
+            } else if (numText.length() != 16 || (Pattern.matches("[0-9]+", numText) == false)) {
+                success.setVisible(false);
+                error.setText("Invalid card");
+                error.setVisible(true);
+            } else if (CVVtext.length() != 3 || (Pattern.matches("[0-9]+", CVVtext) == false)) {
+                success.setVisible(false);
+                error.setText("Invalid CVV");
+                error.setVisible(true);
             } else {
                 error.setVisible(false);
-                int num = Integer.parseInt(numText);
+                String exp = expDT.format(formatter);
+                //int num = Integer.parseInt(numText);
                 int CVV = Integer.parseInt(CVVtext);
-                boolean succ = Database.addCard(num, CVV, exp, nameStr, Login.getName());
-                cardRem.getItems().clear();
-                populateDropdown();
-                if (succ) success.setVisible(true);
+                boolean succ = Database.addCard(numText, CVV, exp, nameStr, Login.getName());
+                if (!succ) {
+                    success.setVisible(false);
+                    error.setText("Card already added");
+                    error.setVisible(true);
+                } else {
+                    cardRem.getItems().clear();
+                    populateDropdown();
+                    if (succ) success.setVisible(true);
+                }
             }
         });
 
         removeCardButt.setOnAction(event -> {
-            int cardVal = (int)cardRem.getValue();
+            String cardVal = (String)cardRem.getValue();
             boolean work = Database.removeUserCard(cardVal, Login.getName());
             if (work) {
                 cardRem.getItems().clear();
@@ -113,8 +129,8 @@ public class Payinfo implements Initializable{
         });
     }
     public void populateDropdown() {
-        ArrayList<Integer> cards = Database.getUserCards(Login.getName());
-        for (int card : cards) {
+        ArrayList<String> cards = Database.getUserCards(Login.getName());
+        for (String card : cards) {
             cardRem.getItems().add(card);
         }
     }

@@ -76,6 +76,21 @@ public class Database {
         return (username.equals("wildcats") && password.equals("12345"));
     }
 
+    public static boolean managerLoginAttempt(String username, String password) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement attempt = con.prepareStatement("SELECT " +
+                    "* FROM Manager WHERE Username = " +
+                    statementHelper(false, username) + " AND " +
+                    "Password = " + statementHelper(false, password));
+            ResultSet result = attempt.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static Customer register(String username, String email, String
             password, String confirmpass) {
         try {
@@ -344,7 +359,7 @@ public class Database {
         return false;
     }
 
-    public static boolean addCard(int cardNum, int cardCVV, String expDate, String name, String username) {
+    public static boolean addCard(String cardNum, int cardCVV, String expDate, String name, String username){
         try {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("INSERT into " +
@@ -359,14 +374,15 @@ public class Database {
         }
     }
 
-    public static ArrayList<Integer> getUserCards(String username) {
+    public static ArrayList<String> getUserCards(String username) {
         try {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("SELECT CardNumber FROM `PaymentInfo` WHERE Username like '" + username + "'");
             ResultSet cards = attempt.executeQuery();
-            ArrayList<Integer> cardList = new ArrayList<>();
-            while (cards.next()) {
-                cardList.add(cards.getInt(1) % 10000);
+            ArrayList<String> cardList = new ArrayList<>();
+            while(cards.next()) {
+                String tmp = cards.getString(1);
+                cardList.add(tmp.substring(tmp.length() - 4, tmp.length()));
             }
             return cardList;
         } catch (Exception e) {
@@ -375,7 +391,7 @@ public class Database {
         }
     }
 
-    public static boolean removeUserCard(int cardVal, String username) {
+    public static boolean removeUserCard(String cardVal, String username) {
         try {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("DELETE FROM PaymentInfo WHERE CardNumber LIKE '%" + cardVal +
