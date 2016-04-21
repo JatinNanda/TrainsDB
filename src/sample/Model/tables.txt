@@ -30,7 +30,7 @@ Location varchar(40) NOT NULL,
 PRIMARY KEY (Name)
 );
 CREATE TABLE PaymentInfo (
-CardNumber int NOT NULL,
+CardNumber varchar(16) NOT NULL,
 CVV int NOT NULL,
 ExpDate varChar(5) NOT NULL,
 NameOnCard varChar(40) NOT NULL,
@@ -40,10 +40,10 @@ FOREIGN KEY (Username) REFERENCES Customer (Username)
 	ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE Reservation (
-ReservationId int NOT NULL AUTO_INCREMENT,
+ReservationId int NOT NULL,
 IsCancelled bit NOT NULL,
 Username varchar(30) NOT NULL,
-CardNumber int NOT NULL,
+CardNumber varchar(16) NOT NULL,
 PRIMARY KEY (ReservationId),
 FOREIGN KEY (Username) REFERENCES Customer (Username)
 ON DELETE CASCADE ON UPDATE CASCADE,

@@ -80,6 +80,7 @@ public class MakeReservation implements Initializable {
     @FXML
     private TableView<TableEntryReserve> table;
 
+    private static String cardNum;
 
     ObservableList backing = FXCollections.observableArrayList();
 
@@ -208,6 +209,9 @@ public class MakeReservation implements Initializable {
             } else {
                 error.setVisible(true);
                 //make the transaction
+                cardNum = Database.getCardNumber(String.valueOf((Integer) combo
+                        .getSelectionModel()
+                        .getSelectedItem()));
                 Calculations.generateID();
                 if (Database.addSelectedReservations(Calculations
                         .getReservations())) {
@@ -230,5 +234,9 @@ public class MakeReservation implements Initializable {
                 }
             }
         });
+    }
+
+    public static String getCard() {
+        return cardNum;
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.UpdateReservation">
+    <children>
+        <Label layoutX="442.0" layoutY="23.0" text="Update Reservation">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TableView fx:id="table" layoutX="1.0" layoutY="106.0" prefHeight="294.0" prefWidth="1006.0">
+            <columns>
+                <TableColumn fx:id="trainCol" prefWidth="79.08503913879395" text="Train" />
+                <TableColumn fx:id="timeCol" prefWidth="153.23128509521484" text="Time" />
+                <TableColumn fx:id="departsCol" prefWidth="161.402099609375" text="Departs From" />
+                <TableColumn fx:id="arrivesCol" prefWidth="166.59786987304688" text="Arrives At" />
+                <TableColumn fx:id="classCol" prefWidth="120.66281127929688" text="Class" />
+                <TableColumn fx:id="priceCol" prefWidth="83.52386474609375" text="Price" />
+                <TableColumn fx:id="bagCol" prefWidth="72.52392578125" text="Bags" />
+                <TableColumn fx:id="passengerCol" prefWidth="162.35968017578125" text="Passenger" />
+            </columns>
+        </TableView>
+        <Label layoutX="12.0" layoutY="81.0" text="Selected a Ticket to update the date for:" />
+        <Button fx:id="back" layoutX="418.0" layoutY="446.0" mnemonicParsing="false" text="Back" />
+        <Button fx:id="submit" layoutX="560.0" layoutY="446.0" mnemonicParsing="false" text="Submit" />
+      <Label fx:id="error" layoutX="500.0" layoutY="499.0" text="Label" visible="false" />
+    </children>
+</Pane>

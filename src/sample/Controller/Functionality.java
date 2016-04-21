@@ -43,6 +43,19 @@ public class Functionality implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        updateReservation.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/updateID" +
+                                ".fxml"));
+                Stage current =(Stage) logout.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         logout.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
