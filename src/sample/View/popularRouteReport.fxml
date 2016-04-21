@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.ViewPopRotRep">
+   <children>
+      <Label layoutX="108.0" layoutY="49.0" text="View Popular Route Report" textFill="#d3a900">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="82.0" layoutY="102.0" prefHeight="346.0" prefWidth="360.0">
+        <columns>
+          <TableColumn fx:id="monthCol" editable="false" prefWidth="104.0" sortable="false" text="Month" />
+            <TableColumn fx:id="trainNumCol" editable="false" prefWidth="119.0" sortable="false" text="Train Number" />
+          <TableColumn fx:id="numResCol" editable="false" minWidth="2.0" prefWidth="136.0" sortable="false" text="# of Reservations" />
+        </columns>
+      </TableView>
+      <Button fx:id="back" layoutX="82.0" layoutY="492.0" mnemonicParsing="false" text="Back" />
+   </children>
+</Pane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.ManagerFront">
+   <children>
+      <Label layoutX="193.0" layoutY="49.0" text="Choose Functionality" textFill="#ffbf00">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="419.0" layoutY="321.0" mnemonicParsing="false" text="Log Out" />
+      <Button fx:id="viewRevRep" layoutX="234.0" layoutY="110.0" mnemonicParsing="false" text="View Revenue Report" textFill="#0015ff" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="viewPopRotRep" layoutX="217.0" layoutY="163.0" mnemonicParsing="false" text="View Popular Route Report" textFill="#0011ff" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>
