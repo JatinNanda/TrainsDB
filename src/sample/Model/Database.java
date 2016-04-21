@@ -46,7 +46,7 @@ public class Database {
             Scanner scanner = new Scanner(new File(url.getPath()));
             scanner.useDelimiter(";");
             //reads queries from file, separated by a ';'
-            while(scanner.hasNext()) {
+            while (scanner.hasNext()) {
                 createStatements.add(scanner.next());
             }
             for (String table : createStatements) {
@@ -57,6 +57,7 @@ public class Database {
             System.out.println(e);
         }
     }
+
     public static boolean loginAttempt(String username, String password) {
         try {
             Connection con = getConnection();
@@ -66,7 +67,7 @@ public class Database {
             PreparedStatement attempt = con.prepareStatement("SELECT " +
                     "* FROM Customer WHERE Username = " +
                     statementHelper(false, username) + " AND " +
-                            "Password = " + statementHelper(false, password));
+                    "Password = " + statementHelper(false, password));
             ResultSet result = attempt.executeQuery();
             return result.next();
         } catch (Exception e) {
@@ -148,7 +149,7 @@ public class Database {
             ArrayList<String> stops = new ArrayList<>();
             while (result.next()) {
                 stops.add(result.getString(1) + ", " + result.getString
-                        (2) + ", " + result.getString(3) + ", " +  result.getString(4));
+                        (2) + ", " + result.getString(3) + ", " + result.getString(4));
             }
             return stops;
         } catch (Exception e) {
@@ -295,7 +296,7 @@ public class Database {
                                 .getString(1)) + " AND " +
                         "StationName = " + statementHelper(false, departs));
                 ResultSet departureTime = departure.executeQuery();
-                while(departureTime.next()) {
+                while (departureTime.next()) {
                     toReturn.get(i).add(departureTime.getString(1));
                 }
 
@@ -343,7 +344,7 @@ public class Database {
         return false;
     }
 
-    public static boolean addCard(int cardNum, int cardCVV, String expDate, String name, String username){
+    public static boolean addCard(int cardNum, int cardCVV, String expDate, String name, String username) {
         try {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("INSERT into " +
@@ -361,14 +362,14 @@ public class Database {
     public static ArrayList<Integer> getUserCards(String username) {
         try {
             Connection con = getConnection();
-            PreparedStatement attempt = con.prepareStatement("SELECT CardNumber FROM `PaymentInfo` WHERE Username like '"+ username + "'");
+            PreparedStatement attempt = con.prepareStatement("SELECT CardNumber FROM `PaymentInfo` WHERE Username like '" + username + "'");
             ResultSet cards = attempt.executeQuery();
             ArrayList<Integer> cardList = new ArrayList<>();
-            while(cards.next()) {
+            while (cards.next()) {
                 cardList.add(cards.getInt(1) % 10000);
             }
             return cardList;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -381,7 +382,7 @@ public class Database {
                     "' AND Username LIKE '" + username + "'");
             attempt.executeUpdate();
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -392,31 +393,32 @@ public class Database {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("SELECT " +
                     "CardNumber FROM `PaymentInfo` WHERE CardNumber like '%"
-                            + last4 + "'");
+                    + last4 + "'");
             ResultSet cards = attempt.executeQuery();
             String cardNum = "";
-            while(cards.next()) {
-               cardNum = cards.getString(1);
+            while (cards.next()) {
+                cardNum = cards.getString(1);
             }
             return cardNum;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
     public static boolean checkStudent(String username) {
         try {
             Connection con = getConnection();
             PreparedStatement check = con.prepareStatement("SELECT " +
                     "isStudent FROM Customer WHERE Username = " +
-                    statementHelper(false, username)) ;
+                    statementHelper(false, username));
             ResultSet result = check.executeQuery();
             while (result.next()) {
                 System.out.println(result);
             }
 
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -426,7 +428,16 @@ public class Database {
                                                           reservations) {
         try {
             Connection con = getConnection();
-            for (Reserves r: reservations) {
+            Reserves first = reservations.get(0);
+            PreparedStatement reservation = con.prepareStatement("INSERT" +
+                    " into Reservation (ReservationId, isCancelled, " +
+                    "Username, CardNumber) VALUES (" + statementHelper
+                    (true, first.getReservationId()) + "0, " + statementHelper
+                    (true, Login
+                            .getName()) + statementHelper(false, MakeReservation
+                    .getCard()) + ")");
+            reservation.executeUpdate();
+            for (Reserves r : reservations) {
                 PreparedStatement reserves = con.prepareStatement("INSERT " +
                         "into " +
                         "Reserves (ReservationId, TrainNumber, Class, " +
@@ -436,23 +447,14 @@ public class Database {
                         r.getTrainNumber()) + booleanHelper(r.isClasstype()) +
                         statementHelper(true, r
                                 .getDepartureDate()) + statementHelper(true, r
-                                .getName()) + statementHelper(true, r
-                                .getNumBags()) + statementHelper(true, r
-                                .getDepartsFrom()) + statementHelper(false, r
-                                .getArrivesAt()) + ")");
+                        .getName()) + statementHelper(true, r
+                        .getNumBags()) + statementHelper(true, r
+                        .getDepartsFrom()) + statementHelper(false, r
+                        .getArrivesAt()) + ")");
                 reserves.executeUpdate();
-
-                PreparedStatement reservation = con.prepareStatement("INSERT" +
-                        " into Reservation (ReservationId, isCancelled, " +
-                        "Username, CardNumber) VALUES (" + statementHelper
-                        (true, r.getReservationId()) + "0, " + statementHelper
-                        (true, Login
-                        .getName()) + statementHelper(false, MakeReservation
-                        .getCard()) + ")");
-                reservation.executeUpdate();
             }
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -467,12 +469,12 @@ public class Database {
                     " FROM" +
                     " Reservation WHERE ReservationId = " + statementHelper
                     (false, id) + " AND Username = " + statementHelper
-                    (false, Login.getName())  + " AND isCancelled = 0");
+                    (false, Login.getName()) + " AND isCancelled = 0");
             ResultSet r = attempt.executeQuery();
-            while(r.next()) {
+            while (r.next()) {
                 PreparedStatement query = con.prepareStatement("SELECT * " +
-                                "FROM Reserves WHERE ReservationId = " +
-                                statementHelper(false, id));
+                        "FROM Reserves WHERE ReservationId = " +
+                        statementHelper(false, id));
                 ResultSet reservations = query.executeQuery();
                 while (reservations.next()) {
                     toUpdate.add(new Reserves(reservations.getString(1),
@@ -482,7 +484,7 @@ public class Database {
                 }
             }
             return toUpdate;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -510,71 +512,4 @@ public class Database {
             System.out.println(e);
         }
     }
-
-
-
-
-//
-//    public static int getGoodCount(String trainId) {
-//        ResultSet result;
-//        try {
-//            Connection con = getConnection();
-//            System.out.println("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating > 6) AND Comment IS NOT NULL"); // 5 , 3, 1
-//            PreparedStatement attempt = con.prepareStatement("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating > 6) AND Comment IS NOT NULL");
-//            result = attempt.executeQuery();
-//            int good = Integer.parseInt(result.getString(1));
-//            return good;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
-//
-//    public static int getBadCount(String trainId) {
-//        ResultSet result;
-//        try {
-//            Connection con = getConnection();
-//            System.out.println("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating < 4) AND Comment IS NOT NULL");
-//            PreparedStatement attempt = con.prepareStatement("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating < 4) AND Comment IS NOT NULL");
-//            result = attempt.executeQuery();
-//            int bad = Integer.parseInt(result.getString(1));
-//            return bad;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
-//
-//    public static int getNeutralCount(String trainId) {
-//        ResultSet result;
-//        try {
-//            Connection con = getConnection();
-//            System.out.println("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating = 5) AND Comment IS NOT NULL");
-//            PreparedStatement attempt = con.prepareStatement("SELECT " +
-//                    "COUNT(*) FROM Review WHERE TrainNumber = " +
-//                    statementHelper(false, trainId) +
-//                    " AND (Rating = 5) AND Comment IS NOT NULL");
-//            result = attempt.executeQuery();
-//            int neutral = Integer.parseInt(result.getString(1));
-//            return neutral;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
 }
