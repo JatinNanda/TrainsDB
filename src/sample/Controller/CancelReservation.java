@@ -148,7 +148,7 @@ public class CancelReservation implements Initializable {
         back.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/updateID" +
+                        ("../View/CancelID" +
                                 ".fxml"));
                 Stage current = (Stage) back.getScene().getWindow();
                 current.setTitle("GT Trains Application");
