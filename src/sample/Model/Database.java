@@ -578,6 +578,58 @@ public class Database {
         }
     }
 
+    public static double getMonthRev(int month) {
+        try {
+            Connection con = getConnection();
+            String mon = "";
+            if (month < 10) {
+                mon = "0" + Integer.toString(month);
+            } else {
+                mon = Integer.toString(month);
+            }
+            System.out.println(mon);
+            PreparedStatement statement = con.prepareStatement("SELECT SUM(Reservation.Price) FROM Reservation INNER JOIN Reserves ON Reservation.ReservationId = Reserves.ReservationID WHERE Reserves.DepartureDate like '%-" +
+                    mon + "-%'");
+            ResultSet rev = statement.executeQuery();
+            rev.next();
+            return rev.getDouble(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    public static ArrayList<PopularRoute> getPopRotRep(int month) {
+        try {
+            Connection con = getConnection();
+            String mon = "";
+            if (month < 10) {
+                mon = "0" + Integer.toString(month);
+            } else {
+                mon = Integer.toString(month);
+            }
+            PreparedStatement attempt = con.prepareStatement("SELECT Reserves.TrainNumber, COUNT(Reserves.TrainNumber) " +
+                    "AS 'occurance' " +
+                    "FROM Reservation " +
+                    "INNER JOIN Reserves ON Reservation.ReservationID = Reserves.ReservationID " +
+                    "WHERE Reservation.isCancelled = 0 AND Reserves.DepartureDate LIKE '%-" + mon + "-%' " +
+                    "GROUP BY TrainNumber " +
+                    "ORDER BY occurance DESC " +
+                    "LIMIT 3");
+            ResultSet result = attempt.executeQuery();
+            ArrayList<PopularRoute> topThree = new ArrayList<>();
+            while(result.next()) {
+                String train = result.getString(1);
+                int count = result.getInt(2);
+                PopularRoute tmp = new PopularRoute(train,count);
+                topThree.add(tmp);
+            }
+            return topThree;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     //makes it easier to write things into the SQL statements - must have
     // toString method. Boolean represents if you need a comma or not.
     public static String statementHelper(boolean comma, Object str) {
