@@ -93,9 +93,27 @@ public class Database {
 
     public static Customer register(String username, String email, String
             password, String confirmpass) {
+        ResultSet result;
         try {
             Connection con = getConnection();
             Customer toReturn;
+
+            System.out.println("SELECT Username FROM Manager");
+
+            PreparedStatement manager = con.prepareStatement("SELECT Username FROM Manager");
+            result = manager.executeQuery();
+
+            ArrayList<String> man = new ArrayList<>();
+            while (result.next()) {
+                man.add(result.getString(1));
+            }
+
+            for (int i = 0; i < man.size(); i++) {
+                if (man.get(i).equals(username)) {
+                    throw new IllegalArgumentException();
+                }
+            }
+
             PreparedStatement register = con.prepareStatement("INSERT into " +
                     "Customer (Username, Password, Email) VALUES (" +
                     statementHelper(true, username) + statementHelper

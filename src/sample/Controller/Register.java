@@ -54,7 +54,7 @@ public class Register implements Initializable {
             String confirmPassStr = confirmPass.getText();
             if (userStr == null || emailStr == null || passStr == null ||
                     confirmPassStr ==
-                    null) {
+                            null) {
                 error.setVisible(true);
                 error.setText("Please fill in all the fields!");
             } else if (!passStr.equals(confirmPassStr)) {
@@ -74,7 +74,7 @@ public class Register implements Initializable {
                         Parent root = FXMLLoader.load(getClass().getResource
                                 ("../View/login" +
                                         ".fxml"));
-                        Stage current =(Stage) register.getScene().getWindow();
+                        Stage current = (Stage) register.getScene().getWindow();
                         current.setTitle("GT Trains Application");
                         current.setScene(new Scene(root));
                         current.show();
