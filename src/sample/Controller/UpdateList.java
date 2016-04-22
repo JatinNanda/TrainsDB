@@ -162,6 +162,7 @@ public class UpdateList implements Initializable {
                 } else if (diffDays > 1 && (selected.compareTo(LocalDate.now
                         ()) >
                         0)) {
+                    costUpdated.setVisible(true);
                     //database stuff here
                     //it's okay to update
                     error.setVisible(true);

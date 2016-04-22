@@ -16,6 +16,7 @@ import sample.Model.Reserves;
 
 import java.net.URL;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -87,20 +88,29 @@ public class UpdateReservation implements Initializable {
 
         //repopulate with every ticket tied to this reservation
         for (Reserves toAdd : UpdateID.getToDisplay()) {
-            TableEntryReserve t = new TableEntryReserve();
-            t.trainName.set(toAdd.getTrainNumber());
-            t.time.set(toAdd.getDepartureDate());
-            t.departs.set(toAdd.getDepartsFrom());
-            t.arrives.set(toAdd.getArrivesAt());
-            t.classType.set(toAdd.isClasstype() ? "First Class" : "Second Class");
-            t.bags.set("" + toAdd.getNumBags());
-            t.name.set(toAdd.getName());
+            //add prices back
+            toAdd.setSelectedPrice(Database.getClassPrice(toAdd.isClasstype(),
+                    toAdd.getTrainNumber()) / 10.0);
 
-            String formattedPrice = f.format(Double.valueOf(toAdd
-                    .getSelectedPrice()));
-            t.price.set(formattedPrice);
+            //check for past date
+            LocalDate toCheck = LocalDate.parse(toAdd.getDepartureDate()
+                    .substring(0, 10));
+            if (toCheck.compareTo(LocalDate.now()) >= 0) {
+                TableEntryReserve t = new TableEntryReserve();
+                t.trainName.set(toAdd.getTrainNumber());
+                t.time.set(toAdd.getDepartureDate());
+                t.departs.set(toAdd.getDepartsFrom());
+                t.arrives.set(toAdd.getArrivesAt());
+                t.classType.set(toAdd.isClasstype() ? "First Class" : "Second Class");
+                t.bags.set("" + toAdd.getNumBags());
+                t.name.set(toAdd.getName());
 
-            backing.add(t);
+                String formattedPrice = f.format(Double.valueOf(toAdd
+                        .getSelectedPrice()));
+                t.price.set(formattedPrice);
+
+                backing.add(t);
+            }
         }
 
         back.setOnAction(event -> {

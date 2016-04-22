@@ -499,16 +499,42 @@ public class Database {
                         statementHelper(false, id));
                 ResultSet reservations = query.executeQuery();
                 while (reservations.next()) {
-                    toUpdate.add(new Reserves(reservations.getString(1),
+                    Reserves res = new Reserves(reservations.getString
+                            (2),
                             Boolean.valueOf(reservations.getString(3)),
                             reservations.getString(4), reservations.getString(2), reservations
-                            .getInt(6), reservations.getString(7), reservations.getString(8)));
+                            .getInt(6), reservations.getString(7), reservations.getString(8));
+                    toUpdate.add(res);
+
                 }
             }
             return toUpdate;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static double getClassPrice(boolean which, String trainNo) {
+        try {
+            Connection con = getConnection();
+            String toCheck = (!which ? "2ndClassPrice" :
+                    "1stClassPrice");
+            System.out.println("SELECT " +
+                    toCheck + " FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNo));
+            PreparedStatement check = con.prepareStatement("SELECT " +
+                    toCheck + " FROM TrainRoute WHERE TrainNumber = " +
+                    statementHelper(false, trainNo));
+            ResultSet result = check.executeQuery();
+            double res = 0.0;
+            while (result.next()) {
+                res = result.getDouble(1);
+            }
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0;
         }
     }
 
