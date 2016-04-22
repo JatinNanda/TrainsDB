@@ -290,6 +290,27 @@ public class Database {
     //5: Date requested
     //6: Arrival Location
     //7: Departure Location
+
+//    SELECT Stop.TrainNumber, StationName, ArrivalTime, DepartureTime, 1stClassPrice, 2ndClassPrice
+//    FROM STOP JOIN TrainRoute ON Stop.TrainNumber = TrainRoute.TrainNumber
+//    WHERE
+//          (stationName =  "Mordor"
+//           OR StationName =  "Winterfell")
+//          AND (
+//            Stop.TrainNumber
+//                    IN (SELECT TrainNumber
+//                        FROM (
+//                              SELECT Stop.TrainNumber, StationName
+//                              FROM STOP JOIN TrainRoute ON Stop.TrainNumber = TrainRoute.TrainNumber
+//                              WHERE (
+//                                  stationName =  "Mordor"
+//                                  OR StationName =  "Winterfell"
+//                              )
+//                      )a
+//                      GROUP BY TrainNumber
+//                      HAVING COUNT( * ) =2
+//                  )
+//            )
     public static ArrayList<ArrayList<String>> findRequestedTrains(String departs, String arrives, String
             date) {
         try {
