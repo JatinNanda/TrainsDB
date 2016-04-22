@@ -544,6 +544,29 @@ public class Database {
         }
     }
 
+    public static ArrayList<LocalDate> getRelevantDates(String cardNum) {
+        try {
+            Connection con = getConnection();
+            cardNum = "%" + cardNum;
+            PreparedStatement check = con.prepareStatement("SELECT Reserves" +
+                            ".DepartureDate FROM (PaymentInfo INNER JOIN Reservation ON PaymentInfo.CardNumber = Reservation.CardNumber) " +
+                            "INNER JOIN Reserves ON Reservation" +
+                    ".ReservationId = Reserves.ReservationId WHERE " +
+                    "PaymentInfo.CardNumber LIKE " + statementHelper(false,
+                    cardNum));
+            ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+            ResultSet result = check.executeQuery();
+            while (result.next()) {
+                dates.add(LocalDate.parse(result.getString(1).substring(0,
+                        10)));
+            }
+            return dates;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static double getClassPrice(boolean which, String trainNo) {
         try {
             Connection con = getConnection();

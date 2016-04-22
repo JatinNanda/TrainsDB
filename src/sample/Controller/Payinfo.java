@@ -106,11 +106,26 @@ public class Payinfo implements Initializable{
         });
 
         removeCardButt.setOnAction(event -> {
-            String cardVal = (String)cardRem.getValue();
-            boolean work = Database.removeUserCard(cardVal, Login.getName());
-            if (work) {
-                cardRem.getItems().clear();
-                populateDropdown();
+            ArrayList<LocalDate> dates = Database.getRelevantDates((String)
+                    cardRem.getValue());
+            System.out.println("SIZE OF DATES" + dates.size());
+            boolean blockRemove = false;
+            for (LocalDate l : dates) {
+                if (l.isAfter(LocalDate.now())) {
+                    blockRemove = true;
+                }
+            }
+            if (!blockRemove) {
+                String cardVal = (String) cardRem.getValue();
+                boolean work = Database.removeUserCard(cardVal, Login.getName());
+                if (work) {
+                    cardRem.getItems().clear();
+                    populateDropdown();
+                }
+            } else {
+                error.setVisible(true);
+                error.setText("That card is being used!");
+                error.setStyle("-fx-text-fill: red;");
             }
         });
 
