@@ -39,6 +39,8 @@ public class UpdateID implements Initializable {
 
     private static String resId;
 
+    private static double totPrice;
+
 
 
     @Override
@@ -62,10 +64,12 @@ public class UpdateID implements Initializable {
             resId = resID.getText();
             toDisplay = Database.getSelectedReservations
                     (resId);
+            totPrice = Database.getReservationPrice(resId);
             if (toDisplay.isEmpty()) {
                 error.setVisible(true);
-                error.setText("Either this reservation is cancelled, or it " +
-                        "doesn't exist under your name");
+                error.setText("Either this reservation is cancelled, it " +
+                        "doesn't exist under your name, or it has already " +
+                        "happened!");
                 error.setStyle("-fx-text-fill: red;");
             } else {
                 try {
@@ -88,5 +92,8 @@ public class UpdateID implements Initializable {
     }
     public static ArrayList<Reserves> getToDisplay() {
         return toDisplay;
+    }
+    public static double getTotPrice() {
+        return totPrice;
     }
 }

@@ -126,11 +126,12 @@ public class MakeReservation implements Initializable {
 
             backing.add(t);
         }
-
         boolean isStudent = Database.checkStudent(Login.getName());
         if (isStudent) {
             discount.setText("The student discount is being applied (20% " +
                     "off)!");
+        } else {
+            discount.setText("No student discount applied!");
         }
 
         cost.setText(f.format((Calculations.getTotalPrice(isStudent))));

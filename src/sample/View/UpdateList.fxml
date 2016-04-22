@@ -45,8 +45,8 @@
       <Label layoutX="88.0" layoutY="507.0" text="Change Fee" />
       <Label layoutX="88.0" layoutY="548.0" text="Updated Total Cost" />
       <Label fx:id="fee" layoutX="217.0" layoutY="507.0" text="\$50.00" />
-      <Label fx:id="costUpdated" layoutX="227.0" layoutY="548.0" text="Label" />
+      <Label fx:id="costUpdated" layoutX="227.0" layoutY="548.0" text="Label" visible="false" />
       <Button fx:id="verify" layoutX="424.0" layoutY="282.0" mnemonicParsing="false" text="Verify and Upate" />
-      <Label fx:id="error" layoutX="431.0" layoutY="323.0" prefHeight="12.0" prefWidth="107.0" text="Enter a New Date" visible="false" />
+      <Label fx:id="error" layoutX="289.0" layoutY="330.0" prefHeight="17.0" prefWidth="644.0" text="Enter a New Date" textAlignment="CENTER" />
     </children>
 </Pane>

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.Model.Calculations;
 import sample.Model.Database;
 
 import java.net.URL;
@@ -38,8 +39,10 @@ public class Login implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         invalid.setVisible(false);
+        Calculations.resetReservations();
         login.setOnAction((event) -> {
-            if (Database.managerLoginAttempt(username.getText(), password.getText())) {
+            if (Database.managerLoginAttempt(username.getText(), password
+                    .getText())) {
                 currentName = username.getText();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource

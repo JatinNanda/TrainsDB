@@ -10,11 +10,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sample.Model.Database;
 import sample.Model.Reserves;
 
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 
 /**
@@ -90,12 +92,16 @@ public class UpdateList implements Initializable {
     private DatePicker combo;
 
     @FXML
+    private Label costUpdated;
+
+    @FXML
     private TableView<TableEntryReserve> table1;
 
     ObservableList backing1 = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        verify.setDisable(false);
         table.setItems(backing);
         table1.setItems(backing1);
         trainCol.setCellValueFactory(new PropertyValueFactory<TableEntry,
@@ -132,17 +138,52 @@ public class UpdateList implements Initializable {
                 String>("name"));
         TableEntryReserve toAdd = UpdateReservation.getEntry();
         backing.add(toAdd);
-
-        LocalDate departure = LocalDate.parse((toAdd.getTime().substring(10)));
+        String restOfTime = toAdd.getTime().substring(10);
+        System.out.println((toAdd.getTime().substring(0, 10)));
+        LocalDate departure = LocalDate.parse(toAdd.getTime().substring(0,
+                10));
         verify.setOnAction(event -> {
             if (combo.getValue() == null) {
                 error.setVisible(true);
                 error.setText("Please select a date!");
                 error.setStyle("-fx-text-fill: red;");
             } else {
-                //calculate date between
-//                long diff = departure.getTime() - LocalDate.now().get);
-//                backing1.add(UpdateReservation.getEntry());
+                //calculate days till train
+                Period between = Period.between(LocalDate.now(), departure);
+                int diffDays = between.getDays();
+                System.out.println("Diff:" + diffDays);
+                LocalDate selected = combo.getValue();
+                //if more than one day before and the new date is not in the
+                // past
+                if (selected.compareTo(departure) == 0) {
+                    error.setVisible(true);
+                    error.setText("Can't select the same date!");
+                    error.setStyle("-fx-text-fill: red;");
+                } else if (diffDays > 1 && (selected.compareTo(LocalDate.now
+                        ()) >
+                        0)) {
+                    //database stuff here
+                    //it's okay to update
+                    error.setVisible(true);
+                    error.setText("Updated successfully!");
+                    error.setStyle("-fx-text-fill: green;");
+                    TableEntryReserve updated = UpdateReservation.getEntry();
+                    String newTime = String.valueOf(selected) + restOfTime;
+                    updated.time.set(newTime);
+                    backing1.add(updated);
+                    //update the cost
+                    double newCost = (UpdateID.getTotPrice() + 50.00);
+                    costUpdated.setText("$" + newCost);
+                    //update database to reflect
+                    Database.updateReservationPriceAndTime(newCost, newTime,
+                            UpdateID.getID());
+                    verify.setDisable(true);
+                } else {
+                    error.setVisible(true);
+                    error.setText("Cannot update a day before the " +
+                            "reservation/make a reservation in the past");
+                    error.setStyle("-fx-text-fill: red;");
+                }
             }
         });
 
@@ -163,7 +204,7 @@ public class UpdateList implements Initializable {
         another.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
-                        ("../View/UpdateReservation" +
+                        ("../View/UpdateID" +
                                 ".fxml"));
                 Stage current = (Stage) another.getScene().getWindow();
                 current.setTitle("GT Trains Application");

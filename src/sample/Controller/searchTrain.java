@@ -16,6 +16,7 @@ import sample.Model.Calculations;
 import sample.Model.Database;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -72,6 +73,10 @@ public class searchTrain implements Initializable {
                error.setVisible(true);
                error.setStyle("-fx-text-fill: red;");
                error.setText("Fill out all the fields!");
+           } else if (dateBox.getValue().compareTo(LocalDate.now()) <= 0) {
+               error.setVisible(true);
+               error.setStyle("-fx-text-fill: red;");
+               error.setText("Cannot select a date from the past!");
            } else {
                //gets rid of the parenthesis lol
                String departs = ((String) departsBox.getSelectionModel()

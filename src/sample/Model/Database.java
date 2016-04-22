@@ -429,11 +429,16 @@ public class Database {
                     "isStudent FROM Customer WHERE Username = " +
                     statementHelper(false, username));
             ResultSet result = check.executeQuery();
+            boolean isStudent = false;
+            String toRet = "";
             while (result.next()) {
-                System.out.println(result);
+                toRet = result.getString(1);
             }
-
-            return true;
+            if (toRet.equals("0")) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -504,6 +509,46 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static double getReservationPrice(String id) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement check = con.prepareStatement("SELECT " +
+                    "Price FROM Reservation WHERE ReservationId = " +
+                    statementHelper(false, id));
+            ResultSet result = check.executeQuery();
+            double res = 0.0;
+            while (result.next()) {
+                res = result.getDouble(1);
+            }
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0;
+        }
+    }
+
+    public static boolean updateReservationPriceAndTime(double price, String
+            time, String id) {
+        try {
+            Connection con = getConnection();
+            PreparedStatement priceUpdate = con.prepareStatement("UPDATE " +
+                    "Reservation" +
+                    " SET Price = " + statementHelper(false, price) + " " +
+                    "WHERE ReservationId = " + statementHelper(false, id));
+            priceUpdate.executeUpdate();
+
+            PreparedStatement dateUpdate = con.prepareStatement("UPDATE " +
+                    "Reserves" +
+                    " SET DepartureDate = " + statementHelper(false, time) +
+                    "WHERE ReservationId = " + statementHelper(false, id));
+            dateUpdate.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

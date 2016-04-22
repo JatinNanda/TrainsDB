@@ -63,6 +63,10 @@ public class Calculations {
         return reservations;
     }
 
+    public static void resetReservations() {
+        reservations = new LinkedList<Reserves>();
+    }
+
     public static void printList() {
         int i = 0;
         for (Reserves r: reservations) {
