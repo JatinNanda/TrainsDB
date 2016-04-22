@@ -84,7 +84,8 @@ public class searchTrain implements Initializable {
                String arrives = ((String) arrivesBox.getSelectionModel()
                        .getSelectedItem()).replaceAll("\\(.*\\)", "");
                String date = dateBox.getValue().toString();
-               matches = Database.findRequestedTrains(departs, arrives, date);
+               matches = Database.findRequestedTrains(departs.trim(), arrives,
+                       date);
                if (matches.isEmpty()) {
                    error.setVisible(true);
                    error.setStyle("-fx-text-fill: red;");

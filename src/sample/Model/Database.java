@@ -291,95 +291,58 @@ public class Database {
     //6: Arrival Location
     //7: Departure Location
 
-//    SELECT Stop.TrainNumber, StationName, ArrivalTime, DepartureTime, 1stClassPrice, 2ndClassPrice
-//    FROM STOP JOIN TrainRoute ON Stop.TrainNumber = TrainRoute.TrainNumber
-//    WHERE
-//          (stationName =  "Mordor"
-//           OR StationName =  "Winterfell")
-//          AND (
-//            Stop.TrainNumber
-//                    IN (SELECT TrainNumber
-//                        FROM (
-//                              SELECT Stop.TrainNumber, StationName
-//                              FROM STOP JOIN TrainRoute ON Stop.TrainNumber = TrainRoute.TrainNumber
-//                              WHERE (
-//                                  stationName =  "Mordor"
-//                                  OR StationName =  "Winterfell"
-//                              )
-//                      )a
-//                      GROUP BY TrainNumber
-//                      HAVING COUNT( * ) =2
-//                  )
-//            )
     public static ArrayList<ArrayList<String>> findRequestedTrains(String departs, String arrives, String
             date) {
         try {
             Connection con = getConnection();
             ArrayList<ArrayList<String>> toReturn = new ArrayList<>();
-            String desiredStops = "%" + departs.substring(0, 2) + "%" + arrives
-                    .substring(0, 2) + "%";
-            PreparedStatement stations = con.prepareStatement("SELECT " +
-                    "DISTINCT TrainNumber FROM Stop WHERE TrainNumber LIKE "
-                    + statementHelper(false, desiredStops));
+
+            String statement = ("SELECT Stop.TrainNumber, StationName, " +
+                    "ArrivalTime, " +
+                    "DepartureTime, " +
+                    "1stClassPrice, 2ndClassPrice FROM Stop JOIN TrainRoute" +
+                    " ON Stop.TrainNumber = TrainRoute.TrainNumber" +
+                    " WHERE(stationName = " + statementHelper(false,
+                    departs) +
+                    " OR StationName = " + statementHelper(false, arrives) +
+                    ")" +
+                    " AND (" +
+                    "Stop.TrainNumber IN (SELECT TrainNumber FROM (SELECT Stop" +
+                    ".TrainNumber, StationName FROM Stop JOIN TrainRoute ON " +
+                    "Stop" +
+                    ".TrainNumber = TrainRoute.TrainNumber WHERE (stationName = "
+                    + statementHelper(false, arrives) + " OR StationName = " +
+                    statementHelper(false, departs) + "))a GROUP BY " +
+                    "TrainNumber HAVING COUNT( *" +
+                    " ) =2))");
+            System.out.println(statement);
+            String desiredStops = "(.*)" + departs.substring(0, 2) + "(.*)" +
+                    arrives.substring(0, 2) + "(.*)";
+            PreparedStatement stations = con.prepareStatement(statement);
             ResultSet matchingNames = stations.executeQuery();
             int i = 0;
             while (matchingNames.next()) {
-                toReturn.add(new ArrayList<String>());
-                //add station name
-                toReturn.get(i).add(matchingNames.getString(1));
-
-                //add arrival time
-                System.out.println("SELECT " +
-                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
-                        statementHelper(false, matchingNames
-                                .getString(1)) + " AND " +
-                        "StationName = " + statementHelper(false, arrives));
-                PreparedStatement arrival = con.prepareStatement("SELECT " +
-                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
-                        statementHelper(false, matchingNames
-                                .getString(1)) + " AND " +
-                        "StationName = " + statementHelper(false, arrives));
-                ResultSet arrivalTime = arrival.executeQuery();
-                while (arrivalTime.next()) {
-                    toReturn.get(i).add(arrivalTime.getString(1));
+                if (matchingNames.getString(1).matches(desiredStops)) {
+                    toReturn.add(new ArrayList<String>());
+                    toReturn.get(i).add(matchingNames.getString(1));
+                    String departureTime = matchingNames.getString(4);
+                    matchingNames.next();
+                    String arrivalTime = matchingNames.getString(3);
+                    toReturn.get(i).add(arrivalTime);
+                    toReturn.get(i).add(departureTime);
+                    toReturn.get(i).add(matchingNames.getString(5));
+                    toReturn.get(i).add(matchingNames.getString(6));
+                    toReturn.get(i).add(date);
+                    toReturn.get(i).add(arrives);
+                    toReturn.get(i).add(departs);
+                    i++;
                 }
-
-                //add departureTime
-                PreparedStatement departure = con.prepareStatement("SELECT " +
-                        "ArrivalTime FROM Stop WHERE TrainNumber = " +
-                        statementHelper(false, matchingNames
-                                .getString(1)) + " AND " +
-                        "StationName = " + statementHelper(false, departs));
-                ResultSet departureTime = departure.executeQuery();
-                while (departureTime.next()) {
-                    toReturn.get(i).add(departureTime.getString(1));
-                }
-
-                //add 1st/2nd class price
-                PreparedStatement prices = con.prepareStatement("SELECT " +
-                        "1stClassPrice, 2ndClassPrice FROM TrainRoute WHERE " +
-                        "TrainNumber = " + statementHelper(false,
-                        matchingNames.getString(1)));
-                ResultSet classPrices = prices.executeQuery();
-                while (classPrices.next()) {
-                    toReturn.get(i).add(classPrices.getString(1));
-                    toReturn.get(i).add(classPrices.getString(2));
-                }
-
-                //add the requested date
-                toReturn.get(i).add(date);
-                //add arrival location
-                toReturn.get(i).add(arrives);
-                //add departure location
-                toReturn.get(i).add(departs);
-                i++;
             }
             return toReturn;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public static boolean trainExists(String trainNumber) {
