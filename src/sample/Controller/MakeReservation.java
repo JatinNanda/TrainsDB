@@ -212,7 +212,7 @@ public class MakeReservation implements Initializable {
                 //make the transaction
                 cardNum = Database.getCardNumber((String) combo
                         .getSelectionModel()
-                        .getSelectedItem());
+                        .getSelectedItem(), Login.getName());
                 Calculations.generateID();
                 if (Database.addSelectedReservations(Calculations
                         .getReservations(), Double.parseDouble(cost

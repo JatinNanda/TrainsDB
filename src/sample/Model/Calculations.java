@@ -1,8 +1,11 @@
 package sample.Model;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -45,6 +48,28 @@ public class Calculations {
         System.out.println(id);
         for (Reserves r: reservations) {
             r.setReservationId(id);
+        }
+    }
+
+    //returns refunded price based on earliest date in the reservation
+    public static double getRefundedPrice(ArrayList<LocalDate> dates, double
+     base) {
+        //find minimum local date
+        Collections.sort(dates);
+        LocalDate min = dates.get(0);
+        System.out.println(String.valueOf(min));
+
+        //time since today
+        Period between = Period.between(LocalDate.now(), min);
+        int diffDays = between.getDays();
+        System.out.println(diffDays);
+
+        if (diffDays > 7) {
+            return base * 0.8 - 50.0;
+        } else if (diffDays > 1) {
+            return base * 0.5 -50.0;
+        } else {
+            return base;
         }
     }
 

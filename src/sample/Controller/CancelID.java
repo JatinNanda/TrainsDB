@@ -45,6 +45,7 @@ public class CancelID implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        error.setVisible(false);
 
         back.setOnAction(event -> {
             try {
@@ -74,7 +75,7 @@ public class CancelID implements Initializable {
             } else {
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource
-                            ("../View/UpdateReservation" +
+                            ("../View/CancelReservation" +
                                     ".fxml"));
                     Stage current = (Stage) submit.getScene().getWindow();
                     current.setTitle("GT Trains Application");

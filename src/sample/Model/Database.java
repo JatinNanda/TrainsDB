@@ -6,6 +6,7 @@ import sample.Controller.MakeReservation;
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -180,10 +181,10 @@ public class Database {
             Connection con = getConnection();
             System.out.println("SELECT COMMENT FROM Review " +
                     "WHERE TrainNumber = \"" + trainId +
-                    "\" AND Rating > 6 AND Comment IS NOT NULL"); // 5 , 3, 1
+                    "\" AND Rating > 5 AND Comment IS NOT NULL"); // 5 , 3, 1
             PreparedStatement attempt = con.prepareStatement("SELECT COMMENT FROM Review " +
                     "WHERE TrainNumber = \"" + trainId +
-                    "\" AND Rating > 6 AND Comment IS NOT NULL");
+                    "\" AND Rating > 5 AND Comment IS NOT NULL");
             result = attempt.executeQuery();
             ArrayList<String> good = new ArrayList<>();
             while (result.next()) {
@@ -224,10 +225,10 @@ public class Database {
             Connection con = getConnection();
             System.out.println("SELECT COMMENT FROM Review " +
                     "WHERE TrainNumber = \"" + trainId +
-                    "\" AND Rating < 4 AND Comment IS NOT NULL");
+                    "\" AND Rating < 5 AND Comment IS NOT NULL");
             PreparedStatement attempt = con.prepareStatement("SELECT COMMENT FROM Review " +
                     "WHERE TrainNumber = \"" + trainId +
-                    "\" AND Rating < 4 AND Comment IS NOT NULL");
+                    "\" AND Rating < 5 AND Comment IS NOT NULL");
             result = attempt.executeQuery();
             ArrayList<String> bad = new ArrayList<>();
             while (result.next()) {
@@ -404,12 +405,13 @@ public class Database {
         }
     }
 
-    public static String getCardNumber(String last4) {
+    public static String getCardNumber(String last4, String username) {
         try {
             Connection con = getConnection();
             PreparedStatement attempt = con.prepareStatement("SELECT " +
                     "CardNumber FROM `PaymentInfo` WHERE CardNumber like '%"
-                    + last4 + "'");
+                    + last4 + "' AND Username LIKE " + statementHelper
+                    (false, username));
             ResultSet cards = attempt.executeQuery();
             String cardNum = "";
             while (cards.next()) {
@@ -515,6 +517,31 @@ public class Database {
         }
     }
 
+    public static ArrayList<LocalDate> getAllDepartures(String id) {
+        try {
+            Connection con = getConnection();
+            System.out.println("SELECT " +
+                    "DepartureDate FROM " +
+                    "Reserves WHERE ReservationID = " +
+                    statementHelper(false, id));
+            PreparedStatement check = con.prepareStatement("SELECT " +
+                    "DepartureDate FROM " +
+                    "Reserves WHERE ReservationID = " +
+                    statementHelper(false, id));
+            ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+            ResultSet result = check.executeQuery();
+            while (result.next()) {
+                System.out.println(result.getString(1).substring(0, 10));
+                dates.add(LocalDate.parse(result.getString(1).substring(0,
+                        10)));
+            }
+            return dates;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static double getClassPrice(boolean which, String trainNo) {
         try {
             Connection con = getConnection();
@@ -573,6 +600,28 @@ public class Database {
                     " AND TrainNumber = " + statementHelper(false,
                     trainNumber));
             dateUpdate.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean cancelReservation(double newPrice, String
+            id) {
+        try {
+            Connection con = getConnection();
+            System.out.println("UPDATE " +
+                    "Reservation" +
+                    " SET Price = " + statementHelper
+                    (true,
+                            newPrice) + "isCancelled = 1 WHERE ReservationId = " + statementHelper(false, id));
+            PreparedStatement priceUpdate = con.prepareStatement("UPDATE " +
+                    "Reservation" +
+                    " SET Price = " + statementHelper
+                    (true,
+                    newPrice) + "isCancelled = 1 WHERE ReservationId = " + statementHelper(false, id));
+            priceUpdate.executeUpdate();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
