@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -116,6 +117,20 @@ public class Functionality implements Initializable {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource
                         ("../View/giveReview" +
+                                ".fxml"));
+                Stage current =(Stage) logout.getScene().getWindow();
+                current.setTitle("GT Trains Application");
+                current.setScene(new Scene(root));
+                current.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        cancelReservation.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource
+                        ("../View/CancelID" +
                                 ".fxml"));
                 Stage current =(Stage) logout.getScene().getWindow();
                 current.setTitle("GT Trains Application");

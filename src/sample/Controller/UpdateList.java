@@ -175,9 +175,10 @@ public class UpdateList implements Initializable {
                     //update the cost
                     double newCost = (UpdateID.getTotPrice() + 50.00);
                     costUpdated.setText("$" + newCost);
+                    String trainName = updated.getTrainName();
                     //update database to reflect
                     Database.updateReservationPriceAndTime(newCost, newTime,
-                            UpdateID.getID());
+                            UpdateID.getID(), trainName);
                     verify.setDisable(true);
                 } else {
                     error.setVisible(true);

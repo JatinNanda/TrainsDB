@@ -557,7 +557,7 @@ public class Database {
     }
 
     public static boolean updateReservationPriceAndTime(double price, String
-            time, String id) {
+            time, String id, String trainNumber) {
         try {
             Connection con = getConnection();
             PreparedStatement priceUpdate = con.prepareStatement("UPDATE " +
@@ -569,7 +569,9 @@ public class Database {
             PreparedStatement dateUpdate = con.prepareStatement("UPDATE " +
                     "Reserves" +
                     " SET DepartureDate = " + statementHelper(false, time) +
-                    "WHERE ReservationId = " + statementHelper(false, id));
+                    "WHERE ReservationId = " + statementHelper(false, id) +
+                    " AND TrainNumber = " + statementHelper(false,
+                    trainNumber));
             dateUpdate.executeUpdate();
             return true;
         } catch (Exception e) {
